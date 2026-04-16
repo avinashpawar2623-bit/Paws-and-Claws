@@ -1,4 +1,5 @@
 const Product = require("../models/Product");
+const Order = require("../models/Order");
 const cloudinary = require("../config/cloudinary");
 
 const toNumber = (value, fallback) => {
@@ -128,6 +129,44 @@ const getProductSuggestions = async (req, res) => {
   ].slice(0, 10);
 
   return res.status(200).json({ success: true, suggestions: names });
+};
+
+const getTrendingProducts = async (req, res) => {
+  const limit = Math.min(Math.max(toNumber(req.query.limit, 6), 1), 20);
+
+  const trending = await Order.aggregate([
+    { $match: { paymentStatus: "paid" } },
+    { $unwind: "$items" },
+    { $match: { "items.productId": { $ne: null } } },
+    {
+      $group: {
+        _id: "$items.productId",
+        unitsSold: { $sum: "$items.quantity" },
+        ordersCount: { $sum: 1 },
+      },
+    },
+    { $sort: { unitsSold: -1, ordersCount: -1 } },
+    { $limit: limit },
+    {
+      $lookup: {
+        from: "products",
+        localField: "_id",
+        foreignField: "_id",
+        as: "product",
+      },
+    },
+    { $unwind: "$product" },
+    {
+      $project: {
+        _id: 0,
+        product: "$product",
+        unitsSold: 1,
+        ordersCount: 1,
+      },
+    },
+  ]);
+
+  return res.status(200).json({ success: true, trending });
 };
 
 const createProduct = async (req, res) => {
@@ -295,6 +334,7 @@ module.exports = {
   getProducts,
   getProductById,
   getProductSuggestions,
+  getTrendingProducts,
   createProduct,
   updateProduct,
   deleteProduct,

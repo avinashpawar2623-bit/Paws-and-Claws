@@ -10,6 +10,11 @@ export const fetchProductSuggestions = async (q) => {
   return data
 }
 
+export const fetchTrendingProducts = async (limit = 6) => {
+  const { data } = await api.get('/products/trending', { params: { limit } })
+  return data
+}
+
 export const fetchProductById = async (id) => {
   const { data } = await api.get(`/products/${id}`)
   return data
