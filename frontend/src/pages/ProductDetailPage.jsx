@@ -1,0 +1,170 @@
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { fetchProductById } from '../services/productService'
+import { useAuth } from '../hooks/useAuth'
+import { useCart } from '../hooks/useCart'
+import {
+  createReview,
+  deleteReview,
+  fetchProductReviews,
+} from '../services/reviewService'
+
+function ProductDetailPage() {
+  const { isAuthenticated, user } = useAuth()
+  const { addItem } = useCart()
+  const { id } = useParams()
+  const [product, setProduct] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState('')
+  const [adding, setAdding] = useState(false)
+  const [reviews, setReviews] = useState([])
+  const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' })
+  const handleAddToCart = async () => {
+    if (!isAuthenticated) return
+    setAdding(true)
+    try {
+      await addItem(product._id, 1)
+    } finally {
+      setAdding(false)
+    }
+  }
+
+
+  useEffect(() => {
+    const load = async () => {
+      setLoading(true)
+      setError('')
+      try {
+        const response = await fetchProductById(id)
+        setProduct(response.item)
+      } catch (requestError) {
+        setError(
+          requestError?.response?.data?.message || 'Failed to load product.'
+        )
+      } finally {
+        setLoading(false)
+      }
+    }
+    load()
+  }, [id])
+
+  useEffect(() => {
+    const loadReviews = async () => {
+      try {
+        const response = await fetchProductReviews(id)
+        setReviews(response.reviews || [])
+      } catch (_error) {
+        setReviews([])
+      }
+    }
+    loadReviews()
+  }, [id])
+
+  const handleCreateReview = async (event) => {
+    event.preventDefault()
+    await createReview(id, {
+      rating: Number(reviewForm.rating),
+      comment: reviewForm.comment,
+    })
+    const refreshed = await fetchProductReviews(id)
+    setReviews(refreshed.reviews || [])
+    setReviewForm({ rating: 5, comment: '' })
+  }
+
+  const handleDeleteReview = async (reviewId) => {
+    await deleteReview(reviewId)
+    const refreshed = await fetchProductReviews(id)
+    setReviews(refreshed.reviews || [])
+  }
+
+  if (loading) {
+    return <section className="page">Loading product...</section>
+  }
+
+  if (error) {
+    return <section className="page form-error">{error}</section>
+  }
+
+  if (!product) {
+    return <section className="page">Product not found.</section>
+  }
+
+  return (
+    <section className="page">
+      <Link to="/products">← Back to products</Link>
+      <h1>{product.name}</h1>
+      {product.cloudinaryUrl ? (
+        <img src={product.cloudinaryUrl} alt={product.name} className="product-image" />
+      ) : null}
+      <p>{product.description || 'No description available.'}</p>
+      <p>
+        Category: <strong>{product.category}</strong>
+      </p>
+      <p>
+        Price: <strong>${product.price?.toFixed(2)}</strong>
+      </p>
+      <p>
+        Stock: <strong>{product.stock}</strong>
+      </p>
+      <p>
+        Rating: <strong>{Number(product.rating || 0).toFixed(1)}</strong>
+      </p>
+      {isAuthenticated ? (
+        <button type="button" onClick={handleAddToCart} disabled={adding}>
+          {adding ? 'Adding...' : 'Add to cart'}
+        </button>
+      ) : (
+        <p>
+          <Link to="/login">Login</Link> to add this item to cart.
+        </p>
+      )}
+
+      <hr />
+      <h3>Reviews</h3>
+      {reviews.length === 0 ? <p>No reviews yet.</p> : null}
+      <ul>
+        {reviews.map((review) => (
+          <li key={review._id}>
+            <strong>{review.userId?.name || 'User'}</strong> - {review.rating}/5
+            <p>{review.comment}</p>
+            {(user?.id === review.userId?._id || user?.role === 'admin') && (
+              <button type="button" onClick={() => handleDeleteReview(review._id)}>
+                Delete review
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+
+      {isAuthenticated ? (
+        <form className="auth-form" onSubmit={handleCreateReview}>
+          <label htmlFor="review-rating">Rating</label>
+          <select
+            id="review-rating"
+            value={reviewForm.rating}
+            onChange={(event) =>
+              setReviewForm((prev) => ({ ...prev, rating: event.target.value }))
+            }
+          >
+            <option value="5">5</option>
+            <option value="4">4</option>
+            <option value="3">3</option>
+            <option value="2">2</option>
+            <option value="1">1</option>
+          </select>
+          <label htmlFor="review-comment">Comment</label>
+          <input
+            id="review-comment"
+            value={reviewForm.comment}
+            onChange={(event) =>
+              setReviewForm((prev) => ({ ...prev, comment: event.target.value }))
+            }
+          />
+          <button type="submit">Submit review</button>
+        </form>
+      ) : null}
+    </section>
+  )
+}
+
+export default ProductDetailPage
