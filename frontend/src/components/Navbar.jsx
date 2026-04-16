@@ -8,6 +8,7 @@ function Navbar() {
   const { isAuthenticated, user, logout } = useAuth()
   const { itemCount } = useCart()
   const [unreadCount, setUnreadCount] = useState(0)
+  const [menuOpen, setMenuOpen] = useState(false)
 
   useEffect(() => {
     const loadNotifications = async () => {
@@ -18,7 +19,7 @@ function Navbar() {
       try {
         const data = await fetchNotifications()
         setUnreadCount(data.unreadCount || 0)
-      } catch (_error) {
+      } catch {
         setUnreadCount(0)
       }
     }
@@ -26,39 +27,87 @@ function Navbar() {
     loadNotifications()
   }, [isAuthenticated])
 
+  useEffect(() => {
+    document.body.classList.toggle('menu-open', menuOpen)
+    return () => document.body.classList.remove('menu-open')
+  }, [menuOpen])
+
   return (
     <header className="navbar">
       <NavLink to="/" className="brand">
         Paws and Claws
       </NavLink>
-      <nav className="nav-links">
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/blog">Blog</NavLink>
-        <NavLink to="/products">Products</NavLink>
-        <NavLink to="/cart">Cart ({itemCount})</NavLink>
+      <button
+        type="button"
+        className="menu-toggle"
+        aria-label="Toggle navigation"
+        onClick={() => setMenuOpen((prev) => !prev)}
+      >
+        Menu
+      </button>
+      <nav className={`nav-links ${menuOpen ? 'open' : ''}`}>
+        <NavLink to="/" onClick={() => setMenuOpen(false)}>
+          Home
+        </NavLink>
+        <NavLink to="/blog" onClick={() => setMenuOpen(false)}>
+          Blog
+        </NavLink>
+        <NavLink to="/products" onClick={() => setMenuOpen(false)}>
+          Products
+        </NavLink>
+        <NavLink to="/cart" onClick={() => setMenuOpen(false)}>
+          Cart ({itemCount})
+        </NavLink>
         {isAuthenticated ? (
           <>
             {(user?.role === 'admin' || user?.role === 'vendor') && (
               <>
-                <NavLink to="/vendor/products/new">Add Product</NavLink>
-                <NavLink to="/vendor/dashboard">Vendor Dashboard</NavLink>
+                <NavLink to="/vendor/products/new" onClick={() => setMenuOpen(false)}>
+                  Add Product
+                </NavLink>
+                <NavLink to="/vendor/dashboard" onClick={() => setMenuOpen(false)}>
+                  Vendor Dashboard
+                </NavLink>
               </>
             )}
             {user?.role === 'admin' && (
-              <NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
+              <NavLink to="/admin/dashboard" onClick={() => setMenuOpen(false)}>
+                Admin Dashboard
+              </NavLink>
             )}
-            <NavLink to="/orders">Orders</NavLink>
-            <NavLink to="/wishlist">Wishlist</NavLink>
-            <NavLink to="/notifications">Notifications ({unreadCount})</NavLink>
-            <NavLink to="/wallet">Wallet</NavLink>
-            <NavLink to="/subscriptions">Subscriptions</NavLink>
-            <NavLink to="/profile">{user?.name || 'Profile'}</NavLink>
-            <button type="button" className="logout-button" onClick={logout}>
+            <NavLink to="/orders" onClick={() => setMenuOpen(false)}>
+              Orders
+            </NavLink>
+            <NavLink to="/wishlist" onClick={() => setMenuOpen(false)}>
+              Wishlist
+            </NavLink>
+            <NavLink to="/notifications" onClick={() => setMenuOpen(false)}>
+              Notifications ({unreadCount})
+            </NavLink>
+            <NavLink to="/wallet" onClick={() => setMenuOpen(false)}>
+              Wallet
+            </NavLink>
+            <NavLink to="/subscriptions" onClick={() => setMenuOpen(false)}>
+              Subscriptions
+            </NavLink>
+            <NavLink to="/profile" onClick={() => setMenuOpen(false)}>
+              {user?.name || 'Profile'}
+            </NavLink>
+            <button
+              type="button"
+              className="logout-button"
+              onClick={() => {
+                setMenuOpen(false)
+                logout()
+              }}
+            >
               Logout
             </button>
           </>
         ) : (
-          <NavLink to="/login">Login</NavLink>
+          <NavLink to="/login" onClick={() => setMenuOpen(false)}>
+            Login
+          </NavLink>
         )}
       </nav>
     </header>

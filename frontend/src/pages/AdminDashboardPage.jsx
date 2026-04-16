@@ -1,20 +1,25 @@
 import { useEffect, useState } from 'react'
 import {
+  downloadOrdersCsv,
   fetchAdminDashboard,
   fetchAuditLogs,
   fetchUsers,
   updateUserStatus,
 } from '../services/dashboardService'
 import { fetchOrders, updateOrderStatus } from '../services/orderService'
+import { fetchModerationQueue, moderateProduct } from '../services/productService'
 
 function AdminDashboardPage() {
   const [data, setData] = useState(null)
   const [users, setUsers] = useState([])
   const [auditLogs, setAuditLogs] = useState([])
   const [orders, setOrders] = useState([])
+  const [products, setProducts] = useState([])
   const [error, setError] = useState('')
   const [savingUserId, setSavingUserId] = useState('')
   const [savingOrderId, setSavingOrderId] = useState('')
+  const [savingProductId, setSavingProductId] = useState('')
+  const [exportingOrders, setExportingOrders] = useState(false)
   const [orderFilters, setOrderFilters] = useState({
     status: '',
     paymentStatus: '',
@@ -25,16 +30,18 @@ function AdminDashboardPage() {
   useEffect(() => {
     const load = async () => {
       try {
-        const [dashboard, usersResponse, logsResponse, ordersResponse] = await Promise.all([
+        const [dashboard, usersResponse, logsResponse, ordersResponse, productsResponse] = await Promise.all([
           fetchAdminDashboard(),
           fetchUsers(),
           fetchAuditLogs(),
           fetchOrders(),
+          fetchModerationQueue(),
         ])
         setData(dashboard)
         setUsers(usersResponse.users || [])
         setAuditLogs(logsResponse.logs || [])
         setOrders(ordersResponse.orders || [])
+        setProducts(productsResponse.items || [])
       } catch (requestError) {
         setError(
           requestError?.response?.data?.message ||
@@ -119,14 +126,87 @@ function AdminDashboardPage() {
     }
   }
 
+  const loadProductsForModeration = async () => {
+    const response = await fetchModerationQueue()
+    setProducts(response.items || [])
+  }
+
+  const handleModerateProduct = async (productId, approvalStatus) => {
+    setSavingProductId(productId)
+    setError('')
+    try {
+      await moderateProduct(productId, {
+        approvalStatus,
+        moderationReason:
+          approvalStatus === 'rejected' ? 'Rejected by admin' : '',
+      })
+      const [logsResponse, dashboard] = await Promise.all([
+        fetchAuditLogs(),
+        fetchAdminDashboard(),
+      ])
+      setAuditLogs(logsResponse.logs || [])
+      setData(dashboard)
+      await loadProductsForModeration()
+    } catch (requestError) {
+      setError(
+        requestError?.response?.data?.message ||
+          'Failed to moderate product.'
+      )
+    } finally {
+      setSavingProductId('')
+    }
+  }
+
+  const handleExportOrders = async () => {
+    setExportingOrders(true)
+    setError('')
+    try {
+      const blob = await downloadOrdersCsv()
+      const url = window.URL.createObjectURL(blob)
+      const anchor = document.createElement('a')
+      anchor.href = url
+      anchor.download = 'orders-report.csv'
+      anchor.click()
+      window.URL.revokeObjectURL(url)
+    } catch (requestError) {
+      setError(
+        requestError?.response?.data?.message ||
+          'Failed to export orders report.'
+      )
+    } finally {
+      setExportingOrders(false)
+    }
+  }
+
   return (
     <section className="page">
       <h1>Admin Dashboard</h1>
+      <div className="page-actions">
+        <button type="button" onClick={handleExportOrders} disabled={exportingOrders}>
+          {exportingOrders ? 'Exporting...' : 'Export Orders CSV'}
+        </button>
+      </div>
       <p>Users: {data.analytics.userCount}</p>
       <p>Suspended Users: {data.analytics.suspendedUserCount}</p>
       <p>Products: {data.analytics.productCount}</p>
       <p>Orders: {data.analytics.orderCount}</p>
       <p>Total Revenue: ${Number(data.analytics.totalRevenue || 0).toFixed(2)}</p>
+
+      <h3>System Health</h3>
+      <p>API Status: {data.systemHealth?.apiStatus || 'unknown'}</p>
+      <p>Database: {data.systemHealth?.databaseStatus || 'unknown'}</p>
+      <p>Uptime: {Number(data.systemHealth?.uptimeSeconds || 0)}s</p>
+      <p>
+        Memory RSS: {Number(data.systemHealth?.memoryRssMb || 0).toFixed(2)} MB
+      </p>
+      <p>
+        Heap Used:{' '}
+        {Number(data.systemHealth?.memoryHeapUsedMb || 0).toFixed(2)} MB
+      </p>
+      <p>Notifications (24h): {data.systemHealth?.notificationsLast24h || 0}</p>
+      <p>Payments (24h): {data.systemHealth?.paymentsLast24h || 0}</p>
+      <p>Snapshot: {data.systemHealth?.generatedAt || '-'}</p>
+
       <h3>Recent Orders</h3>
       <ul>
         {data.recentOrders.map((order) => (
@@ -277,6 +357,44 @@ function AdminDashboardPage() {
               </div>
             </article>
           ))}
+        </div>
+      )}
+
+      <h3>Product Moderation</h3>
+      {products.length === 0 ? (
+        <p>No pending/rejected products to review.</p>
+      ) : (
+        <div className="order-list">
+          {products.map((product) => (
+              <article key={product._id} className="product-card">
+                <p>
+                  <strong>{product.name}</strong>
+                </p>
+                <p>Status: {product.approvalStatus || 'pending'}</p>
+                <p>Vendor: {product.vendor?.name || 'Vendor'}</p>
+                <p>Category: {product.category}</p>
+                <p>Price: ${Number(product.price || 0).toFixed(2)}</p>
+                {product.moderationReason ? (
+                  <p>Reason: {product.moderationReason}</p>
+                ) : null}
+                <div className="filters-row">
+                  <button
+                    type="button"
+                    disabled={savingProductId === product._id}
+                    onClick={() => handleModerateProduct(product._id, 'approved')}
+                  >
+                    {savingProductId === product._id ? 'Saving...' : 'Approve'}
+                  </button>
+                  <button
+                    type="button"
+                    disabled={savingProductId === product._id}
+                    onClick={() => handleModerateProduct(product._id, 'rejected')}
+                  >
+                    Reject
+                  </button>
+                </div>
+              </article>
+            ))}
         </div>
       )}
     </section>

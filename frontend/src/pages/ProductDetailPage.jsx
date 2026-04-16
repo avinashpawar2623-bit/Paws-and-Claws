@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { fetchProductById, fetchProductRecommendations } from '../services/productService'
+import {
+  fetchProductById,
+  fetchProductQrCode,
+  fetchProductRecommendations,
+} from '../services/productService'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
 import { usePageMeta } from '../hooks/usePageMeta'
@@ -23,6 +27,7 @@ function ProductDetailPage() {
   const [savingWishlist, setSavingWishlist] = useState(false)
   const [reviews, setReviews] = useState([])
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' })
+  const [qrCodeDataUrl, setQrCodeDataUrl] = useState('')
 
   usePageMeta({
     title: product?.name || 'Product',
@@ -74,7 +79,7 @@ function ProductDetailPage() {
       try {
         const response = await fetchProductReviews(id)
         setReviews(response.reviews || [])
-      } catch (_error) {
+      } catch {
         setReviews([])
       }
     }
@@ -86,12 +91,25 @@ function ProductDetailPage() {
       try {
         const response = await fetchProductRecommendations(id)
         setRecommendations(response.recommendations || [])
-      } catch (_error) {
+      } catch {
         setRecommendations([])
       }
     }
 
     loadRecommendations()
+  }, [id])
+
+  useEffect(() => {
+    const loadQrCode = async () => {
+      try {
+        const response = await fetchProductQrCode(id)
+        setQrCodeDataUrl(response.qrCodeDataUrl || '')
+      } catch {
+        setQrCodeDataUrl('')
+      }
+    }
+
+    loadQrCode()
   }, [id])
 
   const handleCreateReview = async (event) => {
@@ -143,6 +161,12 @@ function ProductDetailPage() {
       <p>
         Rating: <strong>{Number(product.rating || 0).toFixed(1)}</strong>
       </p>
+      {qrCodeDataUrl ? (
+        <>
+          <h3>Share product</h3>
+          <img src={qrCodeDataUrl} alt={`${product.name} QR code`} className="inline-image" />
+        </>
+      ) : null}
       {isAuthenticated ? (
         <div className="filters-row">
           <button type="button" onClick={handleAddToCart} disabled={adding}>

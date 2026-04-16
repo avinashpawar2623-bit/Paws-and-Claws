@@ -25,7 +25,7 @@ function OrderDetailPage() {
         const paymentResponse = await fetchPaymentByOrderId(id)
         setPayment(paymentResponse.payment || null)
         setInvoice(paymentResponse.invoice || null)
-      } catch (_paymentError) {
+      } catch {
         setPayment(null)
         setInvoice(null)
       }

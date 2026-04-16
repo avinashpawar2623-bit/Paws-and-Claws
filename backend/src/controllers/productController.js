@@ -1,6 +1,8 @@
 const Product = require("../models/Product");
 const Order = require("../models/Order");
 const cloudinary = require("../config/cloudinary");
+const AuditLog = require("../models/AuditLog");
+const QRCode = require("qrcode");
 
 const toNumber = (value, fallback) => {
   const parsed = Number(value);
@@ -19,6 +21,9 @@ const getProducts = async (req, res) => {
   const skip = (page - 1) * limit;
 
   const filter = {};
+  if (req.user?.role !== "admin") {
+    filter.approvalStatus = "approved";
+  }
   const categories = req.query.categories ? toCsvArray(req.query.categories) : [];
   if (categories.length > 0) filter.category = { $in: categories };
   else if (req.query.category) filter.category = req.query.category;
@@ -107,7 +112,34 @@ const getProductById = async (req, res) => {
   if (!item) {
     return res.status(404).json({ success: false, message: "Product not found." });
   }
+  if (item.approvalStatus !== "approved" && req.user?.role !== "admin") {
+    return res.status(404).json({ success: false, message: "Product not found." });
+  }
   return res.status(200).json({ success: true, item });
+};
+
+const getProductQrCode = async (req, res) => {
+  const item = await Product.findById(req.params.id).select("_id name approvalStatus");
+  if (!item) {
+    return res.status(404).json({ success: false, message: "Product not found." });
+  }
+
+  if (item.approvalStatus !== "approved" && req.user?.role !== "admin") {
+    return res.status(404).json({ success: false, message: "Product not found." });
+  }
+
+  const publicUrl = `${req.protocol}://${req.get("host")}/products/${item._id}`;
+  const qrCodeDataUrl = await QRCode.toDataURL(publicUrl, {
+    width: 320,
+    margin: 1,
+  });
+
+  return res.status(200).json({
+    success: true,
+    qrCodeDataUrl,
+    targetUrl: publicUrl,
+    name: item.name,
+  });
 };
 
 const getProductSuggestions = async (req, res) => {
@@ -117,8 +149,8 @@ const getProductSuggestions = async (req, res) => {
   }
 
   const [textMatches, regexMatches] = await Promise.all([
-    Product.find({ $text: { $search: q } }).limit(10).select("name"),
-    Product.find({ name: { $regex: q, $options: "i" } }).limit(10).select("name"),
+    Product.find({ $text: { $search: q }, approvalStatus: "approved" }).limit(10).select("name"),
+    Product.find({ name: { $regex: q, $options: "i" }, approvalStatus: "approved" }).limit(10).select("name"),
   ]);
 
   const names = [
@@ -156,6 +188,7 @@ const getTrendingProducts = async (req, res) => {
       },
     },
     { $unwind: "$product" },
+    { $match: { "product.approvalStatus": "approved" } },
     {
       $project: {
         _id: 0,
@@ -174,7 +207,7 @@ const getRecommendations = async (req, res) => {
   const productId = req.query.productId;
 
   if (!productId) {
-    const recommendations = await Product.find()
+    const recommendations = await Product.find({ approvalStatus: "approved" })
       .sort({ rating: -1, stock: -1, createdAt: -1 })
       .limit(limit);
     return res.status(200).json({ success: true, recommendations });
@@ -188,11 +221,22 @@ const getRecommendations = async (req, res) => {
   const recommendations = await Product.find({
     category: product.category,
     _id: { $ne: product._id },
+    approvalStatus: "approved",
   })
     .sort({ rating: -1, stock: -1, createdAt: -1 })
     .limit(limit);
 
   return res.status(200).json({ success: true, recommendations });
+};
+
+const getModerationQueue = async (_req, res) => {
+  const items = await Product.find({
+    approvalStatus: { $in: ["pending", "rejected"] },
+  })
+    .populate("vendor", "name email role")
+    .sort({ createdAt: -1 });
+
+  return res.status(200).json({ success: true, items });
 };
 
 const createProduct = async (req, res) => {
@@ -230,6 +274,7 @@ const createProduct = async (req, res) => {
     color: color ?? "",
     vaccinationStatus: vaccinationStatus ?? "",
     healthStatus: healthStatus ?? "",
+    approvalStatus: req.user.role === "admin" ? "approved" : "pending",
   });
 
   return res
@@ -279,6 +324,36 @@ const updateProduct = async (req, res) => {
   await item.save();
 
   return res.status(200).json({ success: true, message: "Product updated.", item });
+};
+
+const moderateProduct = async (req, res) => {
+  const { approvalStatus, moderationReason } = req.body;
+  const item = await Product.findById(req.params.id);
+  if (!item) {
+    return res.status(404).json({ success: false, message: "Product not found." });
+  }
+
+  item.approvalStatus = approvalStatus;
+  item.moderationReason = moderationReason || "";
+  item.moderatedAt = new Date();
+  await item.save();
+
+  await AuditLog.create({
+    actorId: req.user?._id || null,
+    action: `product.${approvalStatus}`,
+    entityType: "Product",
+    entityId: item._id.toString(),
+    details: {
+      moderationReason: item.moderationReason,
+      name: item.name,
+    },
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: `Product ${approvalStatus}.`,
+    item,
+  });
 };
 
 const deleteProduct = async (req, res) => {
@@ -359,11 +434,14 @@ const uploadProductImage = async (req, res) => {
 module.exports = {
   getProducts,
   getProductById,
+  getProductQrCode,
   getProductSuggestions,
   getTrendingProducts,
   getRecommendations,
+  getModerationQueue,
   createProduct,
   updateProduct,
+  moderateProduct,
   deleteProduct,
   uploadProductImage,
 };

@@ -5,6 +5,7 @@ const rateLimit = require("express-rate-limit");
 const cookieParser = require("cookie-parser");
 
 const env = require("./config/env");
+const requestLogger = require("./middleware/requestLogger");
 const healthRoutes = require("./routes/healthRoutes");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -29,10 +30,16 @@ app.use(
     credentials: true,
   })
 );
-app.use(helmet());
+app.use(
+  helmet({
+    crossOriginResourcePolicy: false,
+    contentSecurityPolicy: false,
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+app.use(requestLogger);
 
 const apiLimiter = rateLimit({
   windowMs: 15 * 60 * 1000,

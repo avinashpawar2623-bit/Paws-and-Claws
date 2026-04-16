@@ -31,6 +31,14 @@ const productSchema = new mongoose.Schema(
     rating: { type: Number, default: 0, min: 0, max: 5 },
     reviews: { type: [reviewSchema], default: [] },
     vendor: { type: mongoose.Schema.Types.ObjectId, ref: "User", index: true },
+    approvalStatus: {
+      type: String,
+      enum: ["pending", "approved", "rejected"],
+      default: "pending",
+      index: true,
+    },
+    moderationReason: { type: String, default: "" },
+    moderatedAt: { type: Date, default: null },
   },
   { timestamps: true }
 );

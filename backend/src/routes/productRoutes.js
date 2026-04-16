@@ -3,11 +3,14 @@ const { body, param } = require("express-validator");
 const {
   getProducts,
   getProductById,
+  getProductQrCode,
   getProductSuggestions,
   getTrendingProducts,
   getRecommendations,
+  getModerationQueue,
   createProduct,
   updateProduct,
+  moderateProduct,
   deleteProduct,
   uploadProductImage,
 } = require("../controllers/productController");
@@ -26,6 +29,12 @@ router.get("/", getProducts);
 router.get("/suggestions", getProductSuggestions);
 router.get("/trending", getTrendingProducts);
 router.get("/recommendations", getRecommendations);
+router.get("/moderation-queue", protect, allowRoles("admin"), getModerationQueue);
+router.get(
+  "/:id/qr",
+  [param("id").isMongoId().withMessage("Invalid product id."), validateRequest],
+  getProductQrCode
+);
 router.get("/:id", [param("id").isMongoId().withMessage("Invalid product id."), validateRequest], getProductById);
 router.get("/:id/reviews", getProductReviews);
 router.post(
@@ -51,6 +60,20 @@ router.post(
   createProduct
 );
 router.put("/:id", protect, allowRoles("admin", "vendor"), updateProduct);
+router.put(
+  "/:id/moderate",
+  protect,
+  allowRoles("admin"),
+  [
+    param("id").isMongoId().withMessage("Invalid product id."),
+    body("approvalStatus")
+      .isIn(["approved", "rejected"])
+      .withMessage("Invalid approval status."),
+    body("moderationReason").optional().isString().isLength({ max: 250 }),
+    validateRequest,
+  ],
+  moderateProduct
+);
 router.delete("/:id", protect, allowRoles("admin", "vendor"), deleteProduct);
 router.post(
   "/:id/image",

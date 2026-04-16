@@ -9,6 +9,10 @@ body {
   color: #111827;
 }
 
+body.menu-open {
+  overflow: hidden;
+}
+
 a {
   color: #2563eb;
   text-decoration: none;
@@ -32,6 +36,8 @@ a:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
   padding: 1rem 1.5rem;
   background: #111827;
 }
@@ -44,8 +50,19 @@ a:hover {
 
 .nav-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 1rem;
   align-items: center;
+}
+
+.menu-toggle {
+  display: none;
+  border: 1px solid #374151;
+  background: transparent;
+  color: #ffffff;
+  border-radius: 8px;
+  padding: 0.45rem 0.7rem;
+  cursor: pointer;
 }
 
 .nav-links a {
@@ -223,4 +240,71 @@ a:hover {
   background: #111827;
   color: #d1d5db;
   text-align: center;
+}
+
+.page-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.app-loader,
+.page-error {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 8px 24px rgba(17, 24, 39, 0.08);
+}
+
+.inline-image {
+  max-width: 220px;
+  width: 100%;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  background: #ffffff;
+  padding: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    align-items: flex-start;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    margin-left: auto;
+  }
+
+  .nav-links {
+    display: none;
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.75rem;
+    padding-top: 0.5rem;
+  }
+
+  .nav-links.open {
+    display: flex;
+  }
+
+  .nav-links a,
+  .logout-button {
+    width: 100%;
+    text-align: left;
+  }
+
+  .main-content {
+    padding: 1rem;
+  }
+
+  .page {
+    padding: 1rem;
+  }
+
+  .cart-actions,
+  .page-actions {
+    flex-direction: column;
+  }
 }

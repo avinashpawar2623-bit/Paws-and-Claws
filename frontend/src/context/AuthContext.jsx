@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import {
   fetchProfile,
   loginUser,
@@ -7,7 +7,7 @@ import {
   registerUser,
 } from '../services/authService'
 
-export const AuthContext = createContext(null)
+import { AuthContext } from './AuthContextStore'
 
 function getStoredAuth() {
   return {
@@ -37,7 +37,7 @@ export function AuthProvider({ children }) {
           localStorage.setItem('authUser', JSON.stringify(user))
           setAuth((prev) => ({ ...prev, user }))
         }
-      } catch (_error) {
+      } catch {
         localStorage.removeItem('accessToken')
         localStorage.removeItem('refreshToken')
         localStorage.removeItem('authUser')
@@ -69,7 +69,7 @@ export function AuthProvider({ children }) {
     return registerUser(payload)
   }
 
-  const logout = async () => {
+  const logout = useCallback(async () => {
     try {
       if (auth.refreshToken) {
         await logoutUser(auth.refreshToken)
@@ -80,7 +80,7 @@ export function AuthProvider({ children }) {
       localStorage.removeItem('authUser')
       setAuth({ accessToken: '', refreshToken: '', user: null })
     }
-  }
+  }, [auth.refreshToken])
 
   const value = useMemo(
     () => ({
@@ -93,7 +93,7 @@ export function AuthProvider({ children }) {
       register,
       logout,
     }),
-    [auth, loading]
+    [auth, loading, logout]
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>

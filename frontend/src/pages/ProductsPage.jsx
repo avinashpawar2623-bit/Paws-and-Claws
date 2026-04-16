@@ -29,6 +29,9 @@ function ProductsPage() {
   const categoryLegacy = searchParams.get('category') || ''
   const categoriesParam = searchParams.get('categories') || ''
   const selectedCategories = toCsvArray(categoriesParam || categoryLegacy)
+  const selectedCategoriesCsv = selectedCategories.length
+    ? selectedCategories.join(',')
+    : ''
 
   const search = searchParams.get('search') || ''
   const page = Number(searchParams.get('page') || 1)
@@ -45,7 +48,7 @@ function ProductsPage() {
       try {
         const response = await fetchProducts({
           search: search || undefined,
-          categories: selectedCategories.length ? selectedCategories.join(',') : undefined,
+          categories: selectedCategoriesCsv || undefined,
           minPrice: minPrice || undefined,
           maxPrice: maxPrice || undefined,
           inStock: inStock ? 'true' : undefined,
@@ -68,7 +71,7 @@ function ProductsPage() {
 
     loadProducts()
   }, [
-    selectedCategories.join(','),
+    selectedCategoriesCsv,
     search,
     page,
     sortBy,
@@ -89,7 +92,7 @@ function ProductsPage() {
       try {
         const data = await fetchProductSuggestions(q)
         if (!cancelled) setSuggestions(data.suggestions || [])
-      } catch (_e) {
+      } catch {
         if (!cancelled) setSuggestions([])
       }
     }

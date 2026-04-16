@@ -24,3 +24,10 @@ export const fetchAuditLogs = async () => {
   const { data } = await api.get('/users/audit-logs')
   return data
 }
+
+export const downloadOrdersCsv = async () => {
+  const response = await api.get('/dashboard/admin/export/orders.csv', {
+    responseType: 'blob',
+  })
+  return response.data
+}

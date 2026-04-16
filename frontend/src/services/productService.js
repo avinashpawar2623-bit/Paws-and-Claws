@@ -5,6 +5,16 @@ export const fetchProducts = async (params = {}) => {
   return data
 }
 
+export const moderateProduct = async (id, payload) => {
+  const { data } = await api.put(`/products/${id}/moderate`, payload)
+  return data
+}
+
+export const fetchModerationQueue = async () => {
+  const { data } = await api.get('/products/moderation-queue')
+  return data
+}
+
 export const fetchProductSuggestions = async (q) => {
   const { data } = await api.get('/products/suggestions', { params: { q } })
   return data
@@ -24,6 +34,11 @@ export const fetchProductRecommendations = async (productId, limit = 8) => {
 
 export const fetchProductById = async (id) => {
   const { data } = await api.get(`/products/${id}`)
+  return data
+}
+
+export const fetchProductQrCode = async (id) => {
+  const { data } = await api.get(`/products/${id}/qr`)
   return data
 }
 

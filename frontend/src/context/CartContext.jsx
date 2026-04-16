@@ -1,4 +1,4 @@
-import { createContext, useEffect, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useAuth } from '../hooks/useAuth'
 import {
   addCartItem,
@@ -8,14 +8,14 @@ import {
   updateCartItem,
 } from '../services/cartService'
 
-export const CartContext = createContext(null)
+import { CartContext } from './CartContextStore'
 
 export function CartProvider({ children }) {
   const { isAuthenticated } = useAuth()
   const [cart, setCart] = useState({ items: [], totalPrice: 0 })
   const [loading, setLoading] = useState(false)
 
-  const refreshCart = async () => {
+  const refreshCart = useCallback(async () => {
     if (!isAuthenticated) {
       setCart({ items: [], totalPrice: 0 })
       return
@@ -27,12 +27,11 @@ export function CartProvider({ children }) {
     } finally {
       setLoading(false)
     }
-  }
+  }, [isAuthenticated])
 
   useEffect(() => {
     refreshCart()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isAuthenticated])
+  }, [refreshCart])
 
   const addItem = async (productId, quantity = 1) => {
     const response = await addCartItem({ productId, quantity })
@@ -65,7 +64,7 @@ export function CartProvider({ children }) {
       clearCart,
       itemCount: cart.items.reduce((sum, item) => sum + item.quantity, 0),
     }),
-    [cart, loading]
+    [cart, loading, refreshCart]
   )
 
   return <CartContext.Provider value={value}>{children}</CartContext.Provider>
