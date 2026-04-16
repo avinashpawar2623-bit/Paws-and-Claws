@@ -14,6 +14,8 @@ const sanitizeUser = (user) => ({
   role: user.role,
   profileImage: user.profileImage,
   address: user.address,
+  walletBalance: user.walletBalance,
+  loyaltyPoints: user.loyaltyPoints,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
 });

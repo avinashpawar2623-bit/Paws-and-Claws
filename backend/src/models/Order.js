@@ -32,6 +32,11 @@ const orderSchema = new mongoose.Schema(
       enum: ["pending", "paid", "failed"],
       default: "pending",
     },
+    paymentMethod: {
+      type: String,
+      enum: ["stripe", "razorpay", "wallet", "cod"],
+      default: "cod",
+    },
     orderDate: { type: Date, default: Date.now },
   },
   { timestamps: true }

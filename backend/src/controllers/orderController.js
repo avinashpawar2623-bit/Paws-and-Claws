@@ -3,7 +3,7 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 
 const createOrder = async (req, res) => {
-  const { shippingAddress, paymentStatus } = req.body;
+  const { shippingAddress, paymentStatus, paymentMethod } = req.body;
   const cart = await Cart.findOne({ userId: req.user._id }).populate("items.productId");
 
   if (!cart || cart.items.length === 0) {
@@ -33,6 +33,7 @@ const createOrder = async (req, res) => {
     totalPrice: cart.totalPrice,
     shippingAddress: shippingAddress || "",
     paymentStatus: paymentStatus || "pending",
+    paymentMethod: paymentMethod || "cod",
     status: "pending",
   });
 

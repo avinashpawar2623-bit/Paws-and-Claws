@@ -11,6 +11,8 @@ function ProfilePage() {
       <p>Role: {user?.role}</p>
       <p>Phone: {user?.phone || '-'}</p>
       <p>Address: {user?.address || '-'}</p>
+      <p>Wallet Balance: ${Number(user?.walletBalance || 0).toFixed(2)}</p>
+      <p>Loyalty Points: {user?.loyaltyPoints || 0}</p>
     </section>
   )
 }

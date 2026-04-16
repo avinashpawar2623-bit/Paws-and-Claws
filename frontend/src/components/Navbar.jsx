@@ -27,6 +27,8 @@ function Navbar() {
               <NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
             )}
             <NavLink to="/orders">Orders</NavLink>
+            <NavLink to="/wallet">Wallet</NavLink>
+            <NavLink to="/subscriptions">Subscriptions</NavLink>
             <NavLink to="/profile">{user?.name || 'Profile'}</NavLink>
             <button type="button" className="logout-button" onClick={logout}>
               Logout

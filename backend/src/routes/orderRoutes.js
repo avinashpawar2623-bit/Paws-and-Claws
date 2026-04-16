@@ -21,6 +21,10 @@ router.post(
       .isString()
       .isLength({ max: 250 })
       .withMessage("Shipping address is too long."),
+    body("paymentMethod")
+      .optional()
+      .isIn(["stripe", "razorpay", "wallet", "cod"])
+      .withMessage("Invalid payment method."),
     validateRequest,
   ],
   createOrder

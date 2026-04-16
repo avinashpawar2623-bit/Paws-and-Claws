@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { fetchOrderById } from '../services/orderService'
+import { fetchPaymentByOrderId } from '../services/paymentService'
 
 function OrderDetailPage() {
   const { id } = useParams()
   const [order, setOrder] = useState(null)
+  const [payment, setPayment] = useState(null)
+  const [invoice, setInvoice] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
@@ -15,6 +18,16 @@ function OrderDetailPage() {
       try {
         const response = await fetchOrderById(id)
         setOrder(response.order)
+
+        try {
+          const paymentResponse = await fetchPaymentByOrderId(id)
+          setPayment(paymentResponse.payment || null)
+          setInvoice(paymentResponse.invoice || null)
+        } catch (_paymentError) {
+          // Payment may not exist yet for COD or pending payment.
+          setPayment(null)
+          setInvoice(null)
+        }
       } catch (requestError) {
         setError(
           requestError?.response?.data?.message || 'Failed to load order.'
@@ -37,6 +50,7 @@ function OrderDetailPage() {
       <p>Order ID: {order._id}</p>
       <p>Status: {order.status}</p>
       <p>Payment: {order.paymentStatus}</p>
+      <p>Payment Method: {order.paymentMethod || '-'}</p>
       <p>Shipping: {order.shippingAddress || '-'}</p>
       <p>Total: ${Number(order.totalPrice || 0).toFixed(2)}</p>
 
@@ -48,6 +62,24 @@ function OrderDetailPage() {
           </li>
         ))}
       </ul>
+
+      <h3>Payment Details</h3>
+      {invoice ? (
+        <div className="wallet-card">
+          <p>Invoice: {invoice.invoiceNumber}</p>
+          <p>Invoice Status: {invoice.status}</p>
+          <p>
+            Amount: ${Number(invoice.amount || 0).toFixed(2)} {invoice.currency || 'usd'}
+          </p>
+        </div>
+      ) : payment ? (
+        <div className="wallet-card">
+          <p>Payment Provider: {payment.provider}</p>
+          <p>Payment Status: {payment.status}</p>
+        </div>
+      ) : (
+        <p>No payment record yet.</p>
+      )}
     </section>
   )
 }
