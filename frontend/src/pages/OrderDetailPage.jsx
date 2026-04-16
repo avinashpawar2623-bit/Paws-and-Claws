@@ -1,43 +1,72 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { fetchOrderById } from '../services/orderService'
 import { fetchPaymentByOrderId } from '../services/paymentService'
+import { useAuth } from '../hooks/useAuth'
+import { io } from 'socket.io-client'
 
 function OrderDetailPage() {
   const { id } = useParams()
+  const { isAuthenticated, accessToken } = useAuth()
   const [order, setOrder] = useState(null)
   const [payment, setPayment] = useState(null)
   const [invoice, setInvoice] = useState(null)
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
-  useEffect(() => {
-    const loadOrder = async () => {
-      setLoading(true)
-      setError('')
-      try {
-        const response = await fetchOrderById(id)
-        setOrder(response.order)
+  const refreshOrder = useCallback(async () => {
+    setLoading(true)
+    setError('')
+    try {
+      const response = await fetchOrderById(id)
+      setOrder(response.order)
 
-        try {
-          const paymentResponse = await fetchPaymentByOrderId(id)
-          setPayment(paymentResponse.payment || null)
-          setInvoice(paymentResponse.invoice || null)
-        } catch (_paymentError) {
-          // Payment may not exist yet for COD or pending payment.
-          setPayment(null)
-          setInvoice(null)
-        }
-      } catch (requestError) {
-        setError(
-          requestError?.response?.data?.message || 'Failed to load order.'
-        )
-      } finally {
-        setLoading(false)
+      try {
+        const paymentResponse = await fetchPaymentByOrderId(id)
+        setPayment(paymentResponse.payment || null)
+        setInvoice(paymentResponse.invoice || null)
+      } catch (_paymentError) {
+        setPayment(null)
+        setInvoice(null)
       }
+    } catch (requestError) {
+      setError(
+        requestError?.response?.data?.message || 'Failed to load order.'
+      )
+    } finally {
+      setLoading(false)
     }
-    loadOrder()
   }, [id])
+
+  useEffect(() => {
+    refreshOrder()
+  }, [refreshOrder])
+
+  useEffect(() => {
+    if (!isAuthenticated || !accessToken) return
+
+    const apiBase = import.meta.env.VITE_API_URL || 'http://localhost:5000/api'
+    const socketBase = apiBase.replace(/\/api\/?$/, '')
+
+    const socket = io(socketBase, {
+      auth: { token: accessToken },
+      transports: ['websocket'],
+    })
+
+    const onOrderEvent = async (payload) => {
+      if (payload?.orderId?.toString() !== id.toString()) return
+      await refreshOrder()
+    }
+
+    socket.on('order.created', onOrderEvent)
+    socket.on('order.updated', onOrderEvent)
+
+    return () => {
+      socket.off('order.created', onOrderEvent)
+      socket.off('order.updated', onOrderEvent)
+      socket.disconnect()
+    }
+  }, [isAuthenticated, accessToken, id, refreshOrder])
 
   if (loading) return <section className="page">Loading order...</section>
   if (error) return <section className="page form-error">{error}</section>

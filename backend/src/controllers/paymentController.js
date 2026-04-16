@@ -73,6 +73,17 @@ const handleWebhook = async (req, res) => {
   if (order) {
     order.paymentStatus = status === "succeeded" ? "paid" : "failed";
     await order.save();
+
+    if (changed) {
+      const io = req.app.get("io");
+      if (io) {
+        io.to(`user:${order.userId.toString()}`).emit("order.updated", {
+          orderId: order._id.toString(),
+          status: order.status,
+          paymentStatus: order.paymentStatus,
+        });
+      }
+    }
   }
 
   if (changed) {
@@ -121,6 +132,21 @@ const requestRefund = async (req, res) => {
     details: { reason: reason || "" },
   });
 
+  // Notify the user that payment status was effectively rolled back.
+  const order = await Order.findById(payment.orderId);
+  if (order) {
+    order.paymentStatus = "failed";
+    await order.save();
+    const io = req.app.get("io");
+    if (io) {
+      io.to(`user:${order.userId.toString()}`).emit("order.updated", {
+        orderId: order._id.toString(),
+        status: order.status,
+        paymentStatus: order.paymentStatus,
+      });
+    }
+  }
+
   return res.status(200).json({ success: true, message: "Refund processed to wallet.", payment });
 };
 
@@ -150,7 +176,22 @@ const cancelPayment = async (req, res) => {
     details: { paymentId },
   });
 
-  await Order.findByIdAndUpdate(payment.orderId, { paymentStatus: "failed" });
+  const order = await Order.findByIdAndUpdate(
+    payment.orderId,
+    { paymentStatus: "failed" },
+    { new: true }
+  );
+
+  if (order) {
+    const io = req.app.get("io");
+    if (io) {
+      io.to(`user:${order.userId.toString()}`).emit("order.updated", {
+        orderId: order._id.toString(),
+        status: order.status,
+        paymentStatus: order.paymentStatus,
+      });
+    }
+  }
 
   return res.status(200).json({ success: true, message: "Payment cancelled.", payment });
 };

@@ -47,6 +47,16 @@ const createOrder = async (req, res) => {
   cart.totalPrice = 0;
   await cart.save();
 
+  const io = req.app.get("io");
+  if (io && order?.userId) {
+    io.to(`user:${order.userId.toString()}`).emit("order.created", {
+      orderId: order._id.toString(),
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+      paymentMethod: order.paymentMethod,
+    });
+  }
+
   return res.status(201).json({ success: true, message: "Order created.", order });
 };
 
@@ -81,6 +91,16 @@ const updateOrderStatus = async (req, res) => {
   if (paymentStatus) order.paymentStatus = paymentStatus;
 
   await order.save();
+
+  const io = req.app.get("io");
+  if (io && order?.userId) {
+    io.to(`user:${order.userId.toString()}`).emit("order.updated", {
+      orderId: order._id.toString(),
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+    });
+  }
+
   return res.status(200).json({ success: true, message: "Order updated.", order });
 };
 
