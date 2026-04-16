@@ -19,6 +19,7 @@ import WalletPage from './pages/WalletPage'
 import SubscriptionsPage from './pages/SubscriptionsPage'
 import NotificationsPage from './pages/NotificationsPage'
 import VendorShopPage from './pages/VendorShopPage'
+import WishlistPage from './pages/WishlistPage'
 
 function App() {
   return (
@@ -36,6 +37,7 @@ function App() {
           <Route path="orders" element={<OrderHistoryPage />} />
           <Route path="orders/:id" element={<OrderDetailPage />} />
           <Route path="notifications" element={<NotificationsPage />} />
+          <Route path="wishlist" element={<WishlistPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="wallet" element={<WalletPage />} />
           <Route path="subscriptions" element={<SubscriptionsPage />} />

@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { fetchProductById, fetchProductRecommendations } from '../services/productService'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
+import { addToWishlist } from '../services/wishlistService'
 import {
   createReview,
   deleteReview,
@@ -18,6 +19,7 @@ function ProductDetailPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [adding, setAdding] = useState(false)
+  const [savingWishlist, setSavingWishlist] = useState(false)
   const [reviews, setReviews] = useState([])
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' })
   const handleAddToCart = async () => {
@@ -27,6 +29,16 @@ function ProductDetailPage() {
       await addItem(product._id, 1)
     } finally {
       setAdding(false)
+    }
+  }
+
+  const handleAddToWishlist = async () => {
+    if (!isAuthenticated) return
+    setSavingWishlist(true)
+    try {
+      await addToWishlist(product._id)
+    } finally {
+      setSavingWishlist(false)
     }
   }
 
@@ -124,12 +136,21 @@ function ProductDetailPage() {
         Rating: <strong>{Number(product.rating || 0).toFixed(1)}</strong>
       </p>
       {isAuthenticated ? (
-        <button type="button" onClick={handleAddToCart} disabled={adding}>
-          {adding ? 'Adding...' : 'Add to cart'}
-        </button>
+        <div className="filters-row">
+          <button type="button" onClick={handleAddToCart} disabled={adding}>
+            {adding ? 'Adding...' : 'Add to cart'}
+          </button>
+          <button
+            type="button"
+            onClick={handleAddToWishlist}
+            disabled={savingWishlist}
+          >
+            {savingWishlist ? 'Saving...' : 'Add to wishlist'}
+          </button>
+        </div>
       ) : (
         <p>
-          <Link to="/login">Login</Link> to add this item to cart.
+          <Link to="/login">Login</Link> to add this item to cart or wishlist.
         </p>
       )}
 

@@ -47,6 +47,7 @@ function Navbar() {
               <NavLink to="/admin/dashboard">Admin Dashboard</NavLink>
             )}
             <NavLink to="/orders">Orders</NavLink>
+            <NavLink to="/wishlist">Wishlist</NavLink>
             <NavLink to="/notifications">Notifications ({unreadCount})</NavLink>
             <NavLink to="/wallet">Wallet</NavLink>
             <NavLink to="/subscriptions">Subscriptions</NavLink>

@@ -16,6 +16,7 @@ const sanitizeUser = (user) => ({
   address: user.address,
   walletBalance: user.walletBalance,
   loyaltyPoints: user.loyaltyPoints,
+  wishlistCount: user.wishlist?.length || 0,
   createdAt: user.createdAt,
   updatedAt: user.updatedAt,
 });

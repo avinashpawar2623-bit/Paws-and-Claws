@@ -46,6 +46,30 @@ const userSchema = new mongoose.Schema(
       default: 0,
       min: 0,
     },
+    wishlist: {
+      type: [
+        new mongoose.Schema(
+          {
+            productId: {
+              type: mongoose.Schema.Types.ObjectId,
+              ref: "Product",
+              required: true,
+            },
+            addedAt: {
+              type: Date,
+              default: Date.now,
+            },
+            priceWhenAdded: {
+              type: Number,
+              default: 0,
+              min: 0,
+            },
+          },
+          { _id: false }
+        ),
+      ],
+      default: [],
+    },
     refreshToken: {
       type: String,
       default: "",

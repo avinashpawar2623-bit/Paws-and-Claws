@@ -20,13 +20,16 @@ jest.mock("../../src/models/Invoice", () => ({
   create: jest.fn(),
 }));
 
-jest.mock("../../src/models/User", () => ({}));
+jest.mock("../../src/models/User", () => ({
+  findById: jest.fn(),
+}));
 jest.mock("../../src/models/WalletTransaction", () => ({}));
 
 const AuditLog = require("../../src/models/AuditLog");
 const Order = require("../../src/models/Order");
 const Payment = require("../../src/models/Payment");
 const Invoice = require("../../src/models/Invoice");
+const User = require("../../src/models/User");
 
 const { processOrderPayment } = require("../../src/services/paymentService");
 
@@ -77,6 +80,10 @@ describe("processOrderPayment - idempotency + invoice generation", () => {
 
   test("creates Payment + invoice for new successful payments", async () => {
     Payment.findOne.mockResolvedValue(null);
+    User.findById.mockResolvedValue({
+      loyaltyPoints: 0,
+      save: jest.fn().mockResolvedValue(true),
+    });
 
     const orderSave = jest.fn().mockResolvedValue(true);
     Order.findById.mockResolvedValue({

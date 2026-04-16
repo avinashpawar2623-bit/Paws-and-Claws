@@ -56,6 +56,16 @@ const creditWallet = async ({ userId, amount, reason, referenceId, note }) => {
   return user.walletBalance;
 };
 
+const awardLoyaltyPoints = async ({ userId, orderTotal }) => {
+  const user = await User.findById(userId);
+  if (!user) return 0;
+
+  const points = Math.max(Math.floor(Number(orderTotal || 0)), 0);
+  user.loyaltyPoints += points;
+  await user.save();
+  return points;
+};
+
 const debitWallet = async ({ userId, amount, reason, referenceId, note }) => {
   const user = await User.findById(userId);
   if (!user) {
@@ -172,8 +182,12 @@ const processOrderPayment = async ({
   });
 
   if (payment.status === "succeeded") {
+    const wasAlreadyPaid = order.paymentStatus === "paid";
     order.paymentStatus = "paid";
     await order.save();
+    if (!wasAlreadyPaid) {
+      await awardLoyaltyPoints({ userId, orderTotal: order.totalPrice });
+    }
   }
 
   await AuditLog.create({
@@ -211,4 +225,5 @@ module.exports = {
   createIdempotencyKey,
   processOrderPayment,
   creditWallet,
+  awardLoyaltyPoints,
 };

@@ -3,7 +3,12 @@ const Order = require("../models/Order");
 const Payment = require("../models/Payment");
 const WalletTransaction = require("../models/WalletTransaction");
 const Invoice = require("../models/Invoice");
-const { createIdempotencyKey, creditWallet, processOrderPayment } = require("../services/paymentService");
+const {
+  createIdempotencyKey,
+  creditWallet,
+  processOrderPayment,
+  awardLoyaltyPoints,
+} = require("../services/paymentService");
 const { createNotification } = require("../services/notificationService");
 
 const createPayment = async (req, res) => {
@@ -72,8 +77,16 @@ const handleWebhook = async (req, res) => {
 
   const order = await Order.findById(payment.orderId);
   if (order) {
+    const wasAlreadyPaid = order.paymentStatus === "paid";
     order.paymentStatus = status === "succeeded" ? "paid" : "failed";
     await order.save();
+
+    if (changed && status === "succeeded" && !wasAlreadyPaid) {
+      await awardLoyaltyPoints({
+        userId: order.userId,
+        orderTotal: order.totalPrice,
+      });
+    }
 
     if (changed) {
       const io = req.app.get("io");
