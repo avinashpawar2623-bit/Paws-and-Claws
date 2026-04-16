@@ -3,6 +3,7 @@ const { body, param } = require("express-validator");
 const {
   getProducts,
   getProductById,
+  getProductSuggestions,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -20,6 +21,7 @@ const { validateRequest } = require("../middleware/validate");
 const router = express.Router();
 
 router.get("/", getProducts);
+router.get("/suggestions", getProductSuggestions);
 router.get("/:id", [param("id").isMongoId().withMessage("Invalid product id."), validateRequest], getProductById);
 router.get("/:id/reviews", getProductReviews);
 router.post(

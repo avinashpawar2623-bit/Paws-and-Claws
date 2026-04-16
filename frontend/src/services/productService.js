@@ -5,6 +5,11 @@ export const fetchProducts = async (params = {}) => {
   return data
 }
 
+export const fetchProductSuggestions = async (q) => {
+  const { data } = await api.get('/products/suggestions', { params: { q } })
+  return data
+}
+
 export const fetchProductById = async (id) => {
   const { data } = await api.get(`/products/${id}`)
   return data

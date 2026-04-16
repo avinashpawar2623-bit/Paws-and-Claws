@@ -6,13 +6,22 @@ const toNumber = (value, fallback) => {
   return Number.isFinite(parsed) ? parsed : fallback;
 };
 
+const toCsvArray = (value) =>
+  String(value || "")
+    .split(",")
+    .map((v) => v.trim())
+    .filter(Boolean);
+
 const getProducts = async (req, res) => {
   const page = Math.max(toNumber(req.query.page, 1), 1);
   const limit = Math.min(Math.max(toNumber(req.query.limit, 10), 1), 50);
   const skip = (page - 1) * limit;
 
   const filter = {};
-  if (req.query.category) filter.category = req.query.category;
+  const categories = req.query.categories ? toCsvArray(req.query.categories) : [];
+  if (categories.length > 0) filter.category = { $in: categories };
+  else if (req.query.category) filter.category = req.query.category;
+
   if (req.query.minPrice || req.query.maxPrice) {
     filter.price = {};
     if (req.query.minPrice) filter.price.$gte = toNumber(req.query.minPrice, 0);
@@ -22,13 +31,51 @@ const getProducts = async (req, res) => {
   if (req.query.minRating) {
     filter.rating = { $gte: toNumber(req.query.minRating, 0) };
   }
+  if (req.query.inStock === "true") {
+    filter.stock = { $gt: 0 };
+  }
+
+  const breed = req.query.breed ? toCsvArray(req.query.breed) : [];
+  if (breed.length > 0) filter.breed = { $in: breed };
+
+  const size = req.query.size ? toCsvArray(req.query.size) : [];
+  if (size.length > 0) filter.size = { $in: size };
+
+  const color = req.query.color ? toCsvArray(req.query.color) : [];
+  if (color.length > 0) filter.color = { $in: color };
+
+  const vaccinationStatus = req.query.vaccinationStatus
+    ? toCsvArray(req.query.vaccinationStatus)
+    : [];
+  if (vaccinationStatus.length > 0) {
+    filter.vaccinationStatus = { $in: vaccinationStatus };
+  }
+
+  const healthStatus = req.query.healthStatus
+    ? toCsvArray(req.query.healthStatus)
+    : [];
+  if (healthStatus.length > 0) filter.healthStatus = { $in: healthStatus };
+
+  if (req.query.minAge || req.query.maxAge) {
+    filter.age = {};
+    if (req.query.minAge) filter.age.$gte = toNumber(req.query.minAge, 0);
+    if (req.query.maxAge) {
+      filter.age.$lte = toNumber(req.query.maxAge, Number.MAX_SAFE_INTEGER);
+    }
+  }
+
   if (req.query.search) {
     filter.$text = { $search: req.query.search };
   }
 
-  const sortBy = req.query.sortBy || "createdAt";
+  const allowedSortBy = new Set(["createdAt", "price", "rating", "name", "relevance"]);
+  const sortBy = allowedSortBy.has(req.query.sortBy) ? req.query.sortBy : "createdAt";
   const sortOrder = req.query.sortOrder === "asc" ? 1 : -1;
-  const sort = { [sortBy]: sortOrder };
+
+  const sort =
+    req.query.search && sortBy === "relevance"
+      ? { score: { $meta: "textScore" } }
+      : { [sortBy]: sortOrder };
 
   const [items, total] = await Promise.all([
     Product.find(filter)
@@ -62,8 +109,41 @@ const getProductById = async (req, res) => {
   return res.status(200).json({ success: true, item });
 };
 
+const getProductSuggestions = async (req, res) => {
+  const q = String(req.query.q || req.query.search || "").trim();
+  if (!q) {
+    return res.status(200).json({ success: true, suggestions: [] });
+  }
+
+  const [textMatches, regexMatches] = await Promise.all([
+    Product.find({ $text: { $search: q } }).limit(10).select("name"),
+    Product.find({ name: { $regex: q, $options: "i" } }).limit(10).select("name"),
+  ]);
+
+  const names = [
+    ...(textMatches || []).map((p) => p.name),
+    ...(regexMatches || [])
+      .map((p) => p.name)
+      .filter((n) => !textMatches.some((t) => t.name === n)),
+  ].slice(0, 10);
+
+  return res.status(200).json({ success: true, suggestions: names });
+};
+
 const createProduct = async (req, res) => {
-  const { name, description, category, price, stock } = req.body;
+  const {
+    name,
+    description,
+    category,
+    price,
+    stock,
+    breed,
+    age,
+    size,
+    color,
+    vaccinationStatus,
+    healthStatus,
+  } = req.body;
 
   if (!name || !category || price === undefined) {
     return res.status(400).json({
@@ -79,6 +159,12 @@ const createProduct = async (req, res) => {
     price: toNumber(price, 0),
     stock: toNumber(stock, 0),
     vendor: req.user._id,
+    breed: breed ?? "",
+    age: age ?? null,
+    size: size ?? "",
+    color: color ?? "",
+    vaccinationStatus: vaccinationStatus ?? "",
+    healthStatus: healthStatus ?? "",
   });
 
   return res
@@ -100,12 +186,30 @@ const updateProduct = async (req, res) => {
     });
   }
 
-  const { name, description, category, price, stock } = req.body;
+  const {
+    name,
+    description,
+    category,
+    price,
+    stock,
+    breed,
+    age,
+    size,
+    color,
+    vaccinationStatus,
+    healthStatus,
+  } = req.body;
   if (name !== undefined) item.name = name;
   if (description !== undefined) item.description = description;
   if (category !== undefined) item.category = category;
   if (price !== undefined) item.price = toNumber(price, item.price);
   if (stock !== undefined) item.stock = toNumber(stock, item.stock);
+  if (breed !== undefined) item.breed = breed;
+  if (age !== undefined) item.age = age;
+  if (size !== undefined) item.size = size;
+  if (color !== undefined) item.color = color;
+  if (vaccinationStatus !== undefined) item.vaccinationStatus = vaccinationStatus;
+  if (healthStatus !== undefined) item.healthStatus = healthStatus;
 
   await item.save();
 
@@ -190,6 +294,7 @@ const uploadProductImage = async (req, res) => {
 module.exports = {
   getProducts,
   getProductById,
+  getProductSuggestions,
   createProduct,
   updateProduct,
   deleteProduct,
