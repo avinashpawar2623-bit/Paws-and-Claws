@@ -169,6 +169,32 @@ const getTrendingProducts = async (req, res) => {
   return res.status(200).json({ success: true, trending });
 };
 
+const getRecommendations = async (req, res) => {
+  const limit = Math.min(Math.max(toNumber(req.query.limit, 8), 1), 20);
+  const productId = req.query.productId;
+
+  if (!productId) {
+    const recommendations = await Product.find()
+      .sort({ rating: -1, stock: -1, createdAt: -1 })
+      .limit(limit);
+    return res.status(200).json({ success: true, recommendations });
+  }
+
+  const product = await Product.findById(productId);
+  if (!product) {
+    return res.status(404).json({ success: false, message: "Product not found." });
+  }
+
+  const recommendations = await Product.find({
+    category: product.category,
+    _id: { $ne: product._id },
+  })
+    .sort({ rating: -1, stock: -1, createdAt: -1 })
+    .limit(limit);
+
+  return res.status(200).json({ success: true, recommendations });
+};
+
 const createProduct = async (req, res) => {
   const {
     name,
@@ -335,6 +361,7 @@ module.exports = {
   getProductById,
   getProductSuggestions,
   getTrendingProducts,
+  getRecommendations,
   createProduct,
   updateProduct,
   deleteProduct,

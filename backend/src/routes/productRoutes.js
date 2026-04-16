@@ -5,6 +5,7 @@ const {
   getProductById,
   getProductSuggestions,
   getTrendingProducts,
+  getRecommendations,
   createProduct,
   updateProduct,
   deleteProduct,
@@ -24,6 +25,7 @@ const router = express.Router();
 router.get("/", getProducts);
 router.get("/suggestions", getProductSuggestions);
 router.get("/trending", getTrendingProducts);
+router.get("/recommendations", getRecommendations);
 router.get("/:id", [param("id").isMongoId().withMessage("Invalid product id."), validateRequest], getProductById);
 router.get("/:id/reviews", getProductReviews);
 router.post(

@@ -15,6 +15,13 @@ export const fetchTrendingProducts = async (limit = 6) => {
   return data
 }
 
+export const fetchProductRecommendations = async (productId, limit = 8) => {
+  const { data } = await api.get('/products/recommendations', {
+    params: { productId: productId || undefined, limit },
+  })
+  return data
+}
+
 export const fetchProductById = async (id) => {
   const { data } = await api.get(`/products/${id}`)
   return data

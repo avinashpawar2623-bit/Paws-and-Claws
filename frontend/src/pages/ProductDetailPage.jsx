@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
-import { fetchProductById } from '../services/productService'
+import { fetchProductById, fetchProductRecommendations } from '../services/productService'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
 import {
@@ -14,6 +14,7 @@ function ProductDetailPage() {
   const { addItem } = useCart()
   const { id } = useParams()
   const [product, setProduct] = useState(null)
+  const [recommendations, setRecommendations] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
   const [adding, setAdding] = useState(false)
@@ -58,6 +59,19 @@ function ProductDetailPage() {
       }
     }
     loadReviews()
+  }, [id])
+
+  useEffect(() => {
+    const loadRecommendations = async () => {
+      try {
+        const response = await fetchProductRecommendations(id)
+        setRecommendations(response.recommendations || [])
+      } catch (_error) {
+        setRecommendations([])
+      }
+    }
+
+    loadRecommendations()
   }, [id])
 
   const handleCreateReview = async (event) => {
@@ -117,6 +131,30 @@ function ProductDetailPage() {
         <p>
           <Link to="/login">Login</Link> to add this item to cart.
         </p>
+      )}
+
+      <hr />
+      <h3>You may also like</h3>
+      {recommendations.length === 0 ? (
+        <p>No recommendations available yet.</p>
+      ) : (
+        <div className="product-grid">
+          {recommendations.map((p) => (
+            <article key={p._id} className="product-card">
+              {p.cloudinaryUrl ? (
+                <img
+                  src={p.cloudinaryUrl}
+                  alt={p.name}
+                  className="product-image"
+                />
+              ) : null}
+              <h3>{p.name}</h3>
+              <p>${Number(p.price || 0).toFixed(2)}</p>
+              <p>Rating: {Number(p.rating || 0).toFixed(1)}</p>
+              <Link to={`/products/${p._id}`}>View details</Link>
+            </article>
+          ))}
+        </div>
       )}
 
       <hr />
