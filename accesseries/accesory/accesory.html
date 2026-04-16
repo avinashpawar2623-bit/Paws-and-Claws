@@ -1,0 +1,560 @@
+<html>
+<head>
+    <title>Paws and Claws - Pet Accessories</title>
+    <link rel="stylesheet" type="text/css" href="acces.css">
+    </head>
+<body>
+    <header>
+        <div class="navbar">
+            <nav class="nav-links">
+                <a href="index.html">Home</a>
+            </nav>
+            <div class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>Paws and Claws</span>
+            </div>
+            <div class="cart-icon">
+			<a href="cart.html" target="_blank">
+                🛒 <span class="cart-count">0</span>
+           </a> </div>
+        </div>
+    </header>
+    
+    <!-- Main content -->
+    <main>
+        <!-- All Accessories Page -->
+        <div id="all-accessories" class="page">
+            <div class="container">
+                <h1 class="page-title">Pet Accessories</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-all" placeholder="Search for accessories...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn active" data-category="all">All Accessories</button>
+                        <button class="category-btn" data-category="dog-accessories">Dog Accessories</button>
+                        <button class="category-btn" data-category="cat-accessories">Cat Accessories</button>
+                        <button class="category-btn" data-category="collars-leashes">Collars & Leashes</button>
+                    </div>
+                    
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for All Accessories page -->
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Adjustable Dog Collar" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Adjustable Dog Collar</h3>
+                            <p class="product-description">Durable and comfortable collar with cute pattern design. Multiple sizes available.</p>
+                            <div class="product-rating">★★★★☆ (4.2)</div>
+                            <p class="product-price">Rs. 450</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Retractable Dog Leash" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Retractable Dog Leash</h3>
+                            <p class="product-description">5m retractable leash with comfortable grip handle and one-button lock mechanism.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 850</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Cat Toy Set" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Interactive Cat Toy Set</h3>
+                            <p class="product-description">Set of 5 toys including feather wand, balls with bells, and catnip mouse.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 550</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Pet ID Tag" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Personalized Pet ID Tag</h3>
+                            <p class="product-description">Customizable stainless steel ID tag with your pet's name and your contact details.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 250</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Pet Grooming Glove" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Pet Grooming Glove</h3>
+                            <p class="product-description">Gentle deshedding brush glove for dogs and cats. Removes loose fur and provides a relaxing massage.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 380</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog Chew Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Durable Dog Chew Toy</h3>
+                            <p class="product-description">Long-lasting rubber chew toy for aggressive chewers. Promotes dental health.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+            
+        <!-- Dog Accessories Page -->
+        <div id="dog-accessories" class="page">
+            <div class="container">
+                <h1 class="page-title">Dog Accessories</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-dog" placeholder="Search for dog accessories...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn active" data-category="all">All Accessories</button>
+                        <button class="category-btn" data-category="dog-accessories">Dog Accessories</button>
+                        <button class="category-btn" data-category="cat-accessories">Cat Accessories</button>
+                        <button class="category-btn" data-category="collars-leashes">Collars & Leashes</button>
+                    
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for Dog Accessories page -->
+                    <div class="product-card" data-category="dog-accessories">
+                        <img src="/api/placeholder/400/320" alt="Retractable Dog Leash" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Retractable Dog Leash</h3>
+                            <p class="product-description">5m retractable leash with comfortable grip handle and one-button lock mechanism.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 850</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog Harness" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">No-Pull Dog Harness</h3>
+                            <p class="product-description">Padded, adjustable harness designed to prevent pulling. Perfect for training and walks.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 750</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog ID Tag" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Personalized Dog ID Tag</h3>
+                            <p class="product-description">Customizable stainless steel ID tag with your dog's name and your contact details.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 250</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog Chew Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Durable Dog Chew Toy</h3>
+                            <p class="product-description">Long-lasting rubber chew toy for aggressive chewers. Helps clean teeth and massage gums.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog Bandana" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Stylish Dog Bandana</h3>
+                            <p class="product-description">Cotton bandana with adjustable fit. Available in various patterns and sizes.</p>
+                            <div class="product-rating">★★★★☆ (4.1)</div>
+                            <p class="product-price">Rs. 180</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog Bowl" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Stainless Steel Dog Bowl</h3>
+                            <p class="product-description">Durable, non-slip feeding bowl. Dishwasher safe and resistant to bacteria.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 420</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dog Raincoat" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Waterproof Dog Raincoat</h3>
+                            <p class="product-description">Lightweight, adjustable raincoat with reflective strips for visibility during night walks.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 650</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Adjustable Dog Collar" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Adjustable Dog Collar</h3>
+                            <p class="product-description">Durable nylon collar with quick-release buckle. Available in multiple sizes and colors.</p>
+                            <div class="product-rating">★★★★☆ (4.2)</div>
+                            <p class="product-price">Rs. 450</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cat Accessories Page -->
+        <div id="cat-accessories" class="page">
+            <div class="container">
+                <h1 class="page-title">Cat Accessories</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-cat" placeholder="Search for cat accessories...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn active" data-category="all">All Accessories</button>
+                        <button class="category-btn" data-category="dog-accessories">Dog Accessories</button>
+                        <button class="category-btn" data-category="cat-accessories">Cat Accessories</button>
+                        <button class="category-btn" data-category="collars-leashes">Collars & Leashes</button>
+                    </div>
+                  
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for Cat Accessories page -->
+                    <div class="product-card" data-category="cat-accessories">
+                        <img src="/api/placeholder/400/320" alt="Interactive Cat Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Interactive Feather Wand</h3>
+                            <p class="product-description">Retractable wand with colorful feathers to stimulate hunting instincts and provide exercise.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 280</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Cat Scratching Post" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Sisal Scratching Post</h3>
+                            <p class="product-description">Durable scratching post with sisal rope and plush top platform. Promotes nail health.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 950</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Cat ID Tag" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Personalized Cat ID Tag</h3>
+                            <p class="product-description">Lightweight ID tag with your cat's name and your contact details. Silent design, no jingling.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 230</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Catnip Toys" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Catnip Mouse Toys (3-Pack)</h3>
+                            <p class="product-description">Soft plush mice filled with premium catnip. Great for independent play.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 350</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Cat Grooming Brush" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Self-Cleaning Slicker Brush</h3>
+                            <p class="product-description">Gentle grooming brush that removes loose fur, tangles, and mats. Easy one-touch cleaning.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 480</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Cat Fountain" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Automatic Cat Water Fountain</h3>
+                            <p class="product-description">Ultra-quiet fountain with filter. Encourages cats to drink more water.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 1250</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Cat Bed" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Cozy Cat Cave Bed</h3>
+                            <p class="product-description">Soft, enclosed bed that provides security and warmth. Machine washable cover.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 850</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Breakaway Cat Collar" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Breakaway Cat Collar</h3>
+                            <p class="product-description">Safety collar with quick-release buckle and bell. Available in multiple colors.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collars & Leashes Page -->
+        <div id="collars-leashes" class="page">
+            <div class="container">
+                <h1 class="page-title">Collars & Leashes</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-collars" placeholder="Search for collars & leashes...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn active" data-category="all">All Accessories</button>
+                        <button class="category-btn" data-category="dog-accessories">Dog Accessories</button>
+                        <button class="category-btn" data-category="cat-accessories">Cat Accessories</button>
+                        <button class="category-btn" data-category="collars-leashes">Collars & Leashes</button>
+                  </div>                     
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for Collars & Leashes page -->
+                    <div class="product-card" data-category="collars-leashes">
+                        <img src="/api/placeholder/400/320" alt="Retractable Dog Leash" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Retractable Dog Leash</h3>
+                            <p class="product-description">5m retractable leash with comfortable grip handle and one-button lock mechanism. Suitable for dogs up to 25kg.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 850</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Breakaway Cat Collar" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Safety Breakaway Cat Collar</h3>
+                            <p class="product-description">Safety collar with quick-release buckle and reflective strip. Includes removable bell.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Mountain Rope Leash" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Mountain Rope Dog Leash</h3>
+                            <p class="product-description">Strong, durable climbing rope leash with padded handle. Perfect for active dogs and outdoor adventures.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 680</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+    <img src="/api/placeholder/400/320" alt="Reflective Puppy Collar" class="product-img">
+    <div class="product-info">
+        <h3 class="product-title">Reflective Puppy Collar</h3>
+        <p class="product-description">Lightweight, adjustable nylon collar with bright reflective stitching for night visibility. Soft, comfortable design perfect for growing puppies.</p>
+        <div class="product-rating">★★★★☆ (4.3)</div>
+        <p class="product-price">Rs. 280</p>
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+            <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card">
+    <img src="/api/placeholder/400/320" alt="Dual Handle Training Leash" class="product-img">
+    <div class="product-info">
+        <h3 class="product-title">Dual Handle Training Leash</h3>
+        <p class="product-description">2m leash with two padded handles for different levels of control. Ideal for training and busy streets.</p>
+        <div class="product-rating">★★★★★ (4.8)</div>
+        <p class="product-price">Rs. 720</p>
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+            <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card">
+    <img src="/api/placeholder/400/320" alt="Designer Cat Collar" class="product-img">
+    <div class="product-info">
+        <h3 class="product-title">Designer Pattern Cat Collar</h3>
+        <p class="product-description">Fashionable pattern collar with breakaway safety feature. Lightweight and comfortable for daily wear.</p>
+        <div class="product-rating">★★★★☆ (4.2)</div>
+        <p class="product-price">Rs. 360</p>
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+            <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card">
+    <img src="/api/placeholder/400/320" alt="Hands-Free Running Leash" class="product-img">
+    <div class="product-info">
+        <h3 class="product-title">Hands-Free Running Leash</h3>
+        <p class="product-description">Adjustable waist belt with bungee leash attachment. Perfect for jogging, running or hiking with your dog.</p>
+        <div class="product-rating">★★★★★ (4.7)</div>
+        <p class="product-price">Rs. 950</p>
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+            <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+        </div>
+    </div>
+</div>
+
+<div class="product-card">
+    <img src="/api/placeholder/400/320" alt="Premium Dog Collar" class="product-img">
+    <div class="product-info">
+        <h3 class="product-title">Premium Leather Dog Collar</h3>
+        <p class="product-description">Handcrafted genuine leather collar with brass hardware. Durable and stylish for everyday use.</p>
+        <div class="product-rating">★★★★★ (4.9)</div>
+        <p class="product-price">Rs. 750</p>
+        <div class="btn-container">
+            <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+            <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+        </div>
+    </div>
+</div>
+                </div>
+            </div>
+        </div>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Paws and Claws</h3>
+                <p>Premium pet food for your furry friends.</p>
+            
+        <div class="footer-bottom">
+            <p>&copy; 2025 Paws and Claws. All rights reserved.</p>
+        </div>  </div>  
+    </footer>
+    <script src="accessoryvalid.js">
+	</script>	
+	<script src="acescart.js"></script>
+   <script src="acess.js"></script>
+   <script src="acesss.js"></script>
+</body>
+</html>

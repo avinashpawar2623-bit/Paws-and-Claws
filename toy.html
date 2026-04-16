@@ -1,0 +1,588 @@
+<html>
+<head>
+    <title>Paws and Claws - Pet Toys</title>
+    <link rel="stylesheet" type="text/css" href="toys.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <nav class="nav-links">
+                <a href="home.html">Home</a>
+            </nav>
+            <div class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>Paws and Claws</span>
+            </div>
+            <div class="cart-icon">
+			<a href="cart.html" target="_self">
+                🛒 <span class="cart-count">0</span>
+            </a></div>
+        </div>
+    </header>
+    
+    <!-- Main content -->
+    <main>
+        <!-- All Toys Page -->
+        <div id="all-toys" class="page">
+            <div class="container">
+                <h1 class="page-title">Pet Toys</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-all" placeholder="Search for toys...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn active" data-category="all">All Toys</button>
+                        <button class="category-btn" data-category="dog-toys">Dog Toys</button>
+                        <button class="category-btn" data-category="cat-toys">Cat Toys</button>
+                        <button class="category-btn" data-category="interactive-toys">Interactive Toys</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for All Toys page -->
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/61ejY-xoPbL.SX300_SY300_QL70_FMwebp.jpg" alt="Squeaky Plush Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Squeaky Plush Dog Toy</h3>
+                            <p class="product-description">Soft plush toy with built-in squeaker. Perfect for gentle play and cuddles.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 350</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71wVBZiD4nL.jpg" alt="Interactive Puzzle Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Treat Puzzle Ball</h3>
+                            <p class="product-description">Challenging puzzle toy that dispenses treats as your pet plays. Keeps them mentally stimulated.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 580</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://www.aplusapets.com/cdn/shop/files/black-round_1024x1024.jpg?v=1700313472" alt="Feather Wand" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Feather Teaser Wand</h3>
+                            <p class="product-description">Interactive feather wand with retractable string. Engages hunting instincts and provides exercise.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 280</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/91eUSEVhVdL.SX522.jpg" alt="Rope Tug Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Durable Rope Tug Toy</h3>
+                            <p class="product-description">Strong cotton rope toy perfect for tug-of-war games. Helps clean teeth and promotes healthy play.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51U17flL29L.jpg" alt="Automatic Ball Launcher" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Automatic Ball Launcher</h3>
+                            <p class="product-description">Launches tennis balls automatically for endless fetch games. Adjustable distance settings.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 1850</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://i5.walmartimages.com/asr/a7a2eb98-e839-4b6e-8d2f-d5da7d80e4b2.c684af1f425ab92b889f5f95c4a1b47f.jpeg?odnWidth=1000&odnHeight=1000&odnBg=ffffff" alt="Catnip Mice Set" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Catnip Mice Set (5-Pack)</h3>
+                            <p class="product-description">Colorful plush mice filled with premium catnip. Perfect for independent play.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 390</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- Dog Toys Page -->
+        <div id="dog-toys" class="page">
+            <div class="container">
+                <h1 class="page-title">Dog Toys</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-dog" placeholder="Search for dog toys...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn" data-category="all">All Toys</button>
+                        <button class="category-btn active" data-category="dog-toys">Dog Toys</button>
+                        <button class="category-btn" data-category="cat-toys">Cat Toys</button>
+                        <button class="category-btn" data-category="interactive-toys">Interactive Toys</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for Dog Toys page -->
+                    <div class="product-card" data-category="dog-toys">
+                        <img src="https://images-na.ssl-images-amazon.com/images/I/51QM337ZFvL.jpg" alt="Squeaky Plush Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Squeaky Plush Dog Toy</h3>
+                            <p class="product-description">Soft plush toy with built-in squeaker. Perfect for gentle play and cuddles.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 350</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/41VtkP72E7L.SX300_SY300_QL70_FMwebp.jpg" alt="Indestructible Chew Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Indestructible Chew Toy</h3>
+                            <p class="product-description">Extra-durable rubber toy designed for aggressive chewers. Helps clean teeth and massage gums.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 450</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/61aBovqcleL.jpg" alt="Tennis Ball Set" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Tennis Ball Set (3-Pack)</h3>
+                            <p class="product-description">Durable tennis balls specifically designed for dogs. Perfect for fetch and outdoor play.</p>
+                            <div class="product-rating">★★★★☆ (4.2)</div>
+                            <p class="product-price">Rs. 250</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51mnNsculwL.AC.jpg" alt="Rope Tug Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Durable Rope Tug Toy</h3>
+                            <p class="product-description">Strong cotton rope toy perfect for tug-of-war games. Helps clean teeth and promotes healthy play.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcRQWBaVgs3jYzG_Ul98CJRl1HFKHR-xeQ_cNdO4CPbuPq9-mv4EeMsxua6_PDhNLHr2v6_niymfx-QtZm72eatfl5JUNvF9Ij9YGsUEnMv9Fu5TqsP8TyRa&usqp=CAE" alt="Treat Dispensing Ball" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Treat Dispensing Ball</h3>
+                            <p class="product-description">Interactive ball that releases treats as your dog plays. Provides mental stimulation and physical activity.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 380</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/717ODj-Em5L.SL1500.jpg" alt="Floating Water Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Floating Water Toy</h3>
+                            <p class="product-description">Buoyant toy that floats in water. Perfect for water-loving dogs and pool or beach play.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 420</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51UEO+hDrGL.jpg" alt="Automatic Ball Launcher" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Automatic Ball Launcher</h3>
+                            <p class="product-description">Launches tennis balls automatically for endless fetch games. Adjustable distance settings.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 1850</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71-+YO8xnBL.jpg" alt="Plush Puzzle Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Hide & Seek Plush Puzzle</h3>
+                            <p class="product-description">Plush toy with small squeaky animals to find and extract. Great for mental stimulation.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 680</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- Cat Toys Page -->
+        <div id="cat-toys" class="page">
+            <div class="container">
+                <h1 class="page-title">Cat Toys</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-cat" placeholder="Search for cat toys...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn" data-category="all">All Toys</button>
+                        <button class="category-btn" data-category="dog-toys">Dog Toys</button>
+                        <button class="category-btn active" data-category="cat-toys">Cat Toys</button>
+                        <button class="category-btn" data-category="interactive-toys">Interactive Toys</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for Cat Toys page -->
+                    <div class="product-card" data-category="cat-toys">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3SBrhtHw5Qw0njLuTZjgYkw72d7HQs8qZ3w&s" alt="Feather Wand Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Interactive Feather Wand</h3>
+                            <p class="product-description">Colorful feathers on a flexible wand that entices cats to jump and pounce. Great for active play sessions.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 280</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71bbRxDsS3L.AC_UF1000,1000_QL80.jpg" alt="Catnip Mouse" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Catnip Stuffed Mouse</h3>
+                            <p class="product-description">Soft plush mouse filled with premium catnip. Triggers natural hunting instincts and provides hours of entertainment.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 220</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51M026isFkL.AC_UF1000,1000_QL80.jpg" alt="Laser Pointer" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Interactive Laser Pointer</h3>
+                            <p class="product-description">LED laser toy with multiple patterns. Provides exercise and mental stimulation for your cat's hunting instincts.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 350</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/614aNmq5ECL.AC_UF1000,1000_QL80.jpg" alt="Cat Tunnel" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Collapsible Play Tunnel</h3>
+                            <p class="product-description">Crinkle tunnel with peep holes and dangling toys. Satisfies hiding and hunting instincts in one fun toy.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 580</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/51ANg9SRK9L.SY300_SX300_QL70_FMwebp.jpg" alt="Treat Puzzle" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Interactive Treat Puzzle</h3>
+                            <p class="product-description">Mental stimulation toy that dispenses treats as your cat solves the puzzle. Reduces boredom and encourages problem-solving.</p>
+                            <div class="product-rating">★★★★☆ (4.6)</div>
+                            <p class="product-price">Rs. 480</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71RtW71RNoL.AC_UF1000,1000_QL80.jpg" alt="Cat Teaser Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Electronic Moving Teaser</h3>
+                            <p class="product-description">Battery-operated toy with unpredictable movements that mimic prey. Perfect for cats with high prey drive.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 650</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/61J4+gkxd9L.AC_UF1000,1000_QL80.jpg" alt="Scratching Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Sisal Scratching Roller</h3>
+                            <p class="product-description">Combination scratching post and rolling toy. Satisfies scratching needs while encouraging active play.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 420</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/81IdqxS0-SL.jpg" alt="Cat Grass Kit" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Cat Grass Growing Kit</h3>
+                            <p class="product-description">Organic cat grass growing kit. Provides essential nutrients and satisfies natural grazing instincts.</p>
+                            <div class="product-rating">★★★★☆ (4.2)</div>
+                            <p class="product-price">Rs. 300</p>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+		<!-- Interactive Toys Page -->
+        <div id="interactive-toys" class="page">
+            <div class="container">
+                <h1 class="page-title">Interactive Toys</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-interactive" placeholder="Search for interactive toys...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn" data-category="all">All Toys</button>
+                        <button class="category-btn" data-category="dog-toys">Dog Toys</button>
+                        <button class="category-btn" data-category="cat-toys">Cat Toys</button>
+                        <button class="category-btn active" data-category="interactive-toys">Interactive Toys</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <!-- Products for Interactive Toys page -->
+                    <div class="product-card" data-category="interactive-toys">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBtHKUtqemWV6pAomhSMDY3Ktj-yDeVEbD_A&s" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Advanced Ball Launcher</h3>
+                            <p class="product-description">Automatic ball launcher with three distance settings and random timing option. Perfect for dogs of all sizes.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 2200</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71kt8hfdEhL.AC_UF1000,1000_QL80.jpg" alt="Puzzle Feeder" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Advanced Puzzle Feeder</h3>
+                            <p class="product-description">Multi-level treat dispenser with sliding compartments and puzzle elements. Adjustable difficulty for dogs of all intelligence levels.</p>
+                            <div class="product-rating">★★★★☆ (4.6)</div>
+                            <p class="product-price">Rs. 780</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://i.ebayimg.com/images/g/GQsAAOSw6Btj94KA/s-l400.png" alt="Automatic Laser Toy" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Motion-Activated Laser Toy</h3>
+                            <p class="product-description">Automatic laser toy with random movement patterns. Motion sensor activates when your cat approaches. Includes timer settings.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 820</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://i.ebayimg.com/images/g/S0oAAOSwMexkfwXU/s-l400.jpg" alt="Robotic Mouse" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Smart Robotic Mouse</h3>
+                            <p class="product-description">Intelligent robotic mouse with obstacle avoidance and unpredictable movement patterns. Rechargeable battery with 3 hours of play time.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 950</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://images-cdn.ubuy.co.in/668731f0bc8bbe532b755c40-wopet-300-dog-camera-with-treat.jpg" alt="Treat Dispenser Camera" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Smart Treat Dispenser & Camera</h3>
+                            <p class="product-description">Wi-Fi connected treat dispenser with HD camera, two-way audio, and smartphone app. Play with your pet remotely!</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 3200</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/41DTLky6yZL.SX300_SY300_QL70_FMwebp.jpg" alt="Interactive Feeder Ball" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Rolling Treat Dispenser Ball</h3>
+                            <p class="product-description">Weighted wobble ball that randomly dispenses treats as your pet plays. Adjustable difficulty settings.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 520</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71qTZQjasUL.jpg" alt="Interactive Fountain" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Interactive Pet Fountain</h3>
+                            <p class="product-description">Motion-activated pet fountain with multiple water streams. Encourages hydration through play and natural curiosity.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 1450</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="https://m.media-amazon.com/images/I/71zJ-bpBChL.AC_UF1000,1000_QL80.jpg" alt="Smart Toy Hub" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Pet Entertainment Hub</h3>
+                            <p class="product-description">All-in-one entertainment system with rotating toys, treat dispenser, and sound module. Programmable play schedules via smartphone.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 4500</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><main>
+		 <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Paws and Claws</h3>
+                <p>Premium pet food for your furry friends.</p>
+            
+        <div class="footer-bottom">
+            <p>&copy; 2025 Paws and Claws. All rights reserved.</p>
+        </div>  </div>  
+    </footer>
+		
+    <script src="toy.js">
+	</script>
+    <script src="toysvalidate.js">
+	</script>
+	<script src="toys.js">
+	</script>
+    
+</body>
+</html>

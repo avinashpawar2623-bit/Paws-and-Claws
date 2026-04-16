@@ -1,0 +1,95 @@
+<html lang="en">
+<head>
+    <title>Paws and Claws - Shopping Cart</title>
+    <link rel="stylesheet" type="text/css" href="toys.css">
+	<link rel="stylesheet" type="text/css" href="cart.css">
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <nav class="nav-links">
+                <a href="home.html">Home</a>
+                <a href="toy.html">Toys</a>
+		<a href="food.html">Food</a>
+		<a href="accesory.html">Accessory</a>
+		<a href="healthpage.html">Health</a>
+				
+            </nav>
+            <div class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>Paws and Claws</span>
+            </div>
+            <div class="cart-icon">
+                <a href="cart.html">
+                    🛒 <span class="cart-count" id="nav-cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>
+    
+    <main>
+        <div class="cart-container">
+            <h1 class="cart-title">Your Shopping Cart</h1>
+            
+            <div id="cart-content">
+                <!-- Cart items will be inserted here by JavaScript -->
+                <div class="empty-cart-message" id="empty-cart-message">
+                    Your cart is empty. Start shopping!
+                </div>
+                
+                <table class="cart-items" id="cart-items-table" style="display: none;">
+                    <thead>
+                        <tr>
+                            <th>Product</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="cart-items-body">
+                        <!-- Cart items rows will be inserted here -->
+                    </tbody>
+                </table>
+                
+                <div class="cart-summary" id="cart-summary" style="display: none;">
+                    <div class="cart-summary-item">
+                        <span>Subtotal:</span>
+                        <span id="cart-subtotal">Rs. 0</span>
+                    </div>
+                    <div class="cart-summary-item">
+                        <span>Shipping:</span>
+                        <span id="cart-shipping">Rs. 0</span>
+                    </div>
+                    <div class="cart-summary-item cart-summary-total">
+                        <span>Total:</span>
+                        <span id="cart-total">Rs. 0</span>
+                    </div>
+                </div>
+                <a href="pay.html" target="_blank">
+                <button class="checkout-btn" id="checkout-btn" style="display: none;">
+                    Proceed to Checkout
+                </button></a>
+            </div>
+            
+            <div class="continue-shopping">
+                <a href="home.html">Continue Shopping</a>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Paws and Claws</h3>
+                <p>Premium pet products for your furry friends.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Paws and Claws. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+    <script src="cart.js"></script>
+</body>
+</html>

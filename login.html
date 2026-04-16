@@ -1,0 +1,205 @@
+<html>
+<head>
+    <title>Login Page</title>
+    <style>
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from { 
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: linear-gradient(-45deg, #6a11cb, #2575fc, #00b8d4, #2575fc);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            backdrop-filter: blur(10px);
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        h2 {
+            color: #2c3e50;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        h2:after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(90deg, #6a11cb, #2575fc);
+            margin: 10px auto 0;
+            border-radius: 2px;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 15px;
+            color: #2c3e50;
+            font-size: 15px;
+            text-align: center;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            background: #f8fafc;
+        }
+
+        input[type="text"]:focus,
+        input[type="password"]:focus {
+            border-color: #2575fc;
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(37, 117, 252, 0.1);
+        }
+
+        input::placeholder {
+            color: #a0aec0;
+        }
+
+        .login-button {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #6a11cb, #2575fc);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .login-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 117, 252, 0.3);
+        }
+
+        .login-button:active {
+            transform: translateY(0);
+        }
+
+        .signup-link, .privacy-policy {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #64748b;
+        }
+
+        .signup-link a, .privacy-policy a {
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .signup-link a:hover, .privacy-policy a:hover {
+            color: #6a11cb;
+        }
+
+        .error {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 5px;
+            display: block;
+            animation: shake 0.5s ease-in-out;
+        }
+
+        .success-message {
+            color: #10b981;
+            font-size: 14px;
+            text-align: center;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            background: #ecfdf5;
+            animation: fadeInUp 0.5s ease-out;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 30px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Welcome Back</h2>
+        <form id="loginForm" onsubmit="return validateForm()">
+            <div class="input-group">
+                <label for="emailorphone">Login to your account</label>
+                <input type="text" id="emailorphone" name="emailorphone" placeholder="Phone number / E-mail" required>
+                <span class="error" id="emailOrPhoneError"></span>
+            </div>
+            <div class="input-group">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+                <span class="error" id="passwordError"></span>
+            </div>
+			 <div class="text-right">
+            <a href="#" style="margin-left:182px;">
+              Forgot Password?
+            </a>
+            <button type="submit" class="login-button">Login</button>
+        </form>
+        <p class="signup-link">Don't have an account? <a href="signup.html">Sign Up</a></p>
+        <p class="privacy-policy"><a href="#">Privacy Policy</a></p>
+        <div id="successMessage" class="success-message" style="display: none;"></div>
+    </div>
+
+    <script src="login.js"></script>
+<script src="loginauthenticate.js"></script>
+</body>
+</html>

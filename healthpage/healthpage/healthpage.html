@@ -1,0 +1,672 @@
+<html>
+<head>
+    <title>Paws and Claws - Pet Health</title>
+    <link rel="stylesheet" type="text/css" href="health.css">
+</head>
+<body>
+<header>
+        <div class="navbar">
+            <nav class="nav-links">
+                <a href="home.html">Home</a>
+            </nav>
+            <div class="logo">
+                <span class="logo-icon">🐾</span>
+                <span>Paws and Claws</span>
+            </div>
+            <div class="cart-icon">
+                <a href="cart.html" target="_self">
+                    🛒 <span class="cart-count">0</span>
+                </a>
+            </div>
+        </div>
+    </header>    
+    <main>
+                <div id="all-health" class="page">
+            <div class="container">
+                <h1 class="page-title">Pet Health Products</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-all" placeholder="Search for health products...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn active" data-category="all">All Health</button>
+                        <button class="category-btn" data-category="dog-health">Dog Health</button>
+                        <button class="category-btn" data-category="cat-health">Cat Health</button>
+                        <button class="category-btn" data-category="supplements">Supplements</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Dental Chews" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Dental Care Chews</h3>
+                            <p class="product-description">Tasty chews with enzymes to help reduce plaque and freshen breath. Daily oral care for dogs.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 450</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Joint Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Joint Support Formula</h3>
+                            <p class="product-description">Glucosamine and chondroitin blend to support joint health and mobility in aging pets.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 780</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Hairball Control" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Hairball Control Paste</h3>
+                            <p class="product-description">Malt-flavored paste that helps prevent hairballs and supports digestive health in cats.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 380</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Ear Cleaner" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Gentle Ear Cleansing Solution</h3>
+                            <p class="product-description">Alcohol-free formula that safely removes dirt and wax while preventing infections.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Calming Diffuser" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Calming Pheromone Diffuser</h3>
+                            <p class="product-description">Reduces stress and anxiety in pets with natural pheromones. Perfect for travel or new environments.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 1250</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card">
+                        <img src="/api/placeholder/400/320" alt="Multivitamin" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Complete Multivitamin Chews</h3>
+                            <p class="product-description">Tasty chewable tablets with essential vitamins and minerals for overall pet health.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 590</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Dog Health Page -->
+        <div id="dog-health" class="page">
+            <div class="container">
+                <h1 class="page-title">Dog Health Products</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-dog" placeholder="Search for dog health products...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn" data-category="all">All Health</button>
+                        <button class="category-btn active" data-category="dog-health">Dog Health</button>
+                        <button class="category-btn" data-category="cat-health">Cat Health</button>
+                        <button class="category-btn" data-category="supplements">Supplements</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Dental Chews" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Dental Care Chews</h3>
+                            <p class="product-description">Tasty chews with enzymes to help reduce plaque and freshen breath. Daily oral care for dogs.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 450</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Hip and Joint Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Hip & Joint Support Tablets</h3>
+                            <p class="product-description">Specially formulated for large breeds and senior dogs. Supports mobility and joint health.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 650</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Flea and Tick Prevention" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Monthly Flea & Tick Prevention</h3>
+                            <p class="product-description">Effective protection against fleas, ticks, and mosquitoes. Waterproof formula lasts up to 30 days.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 850</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Digestive Health" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Probiotic Digestive Support</h3>
+                            <p class="product-description">Powder formula with live probiotics to support healthy digestion and immune function.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 480</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Skin and Coat Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Skin & Coat Omega Oil</h3>
+                            <p class="product-description">Rich in omega-3 and omega-6 fatty acids. Reduces shedding and promotes healthy skin and coat.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 550</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Ear Solution" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Ear Cleaning Solution</h3>
+                            <p class="product-description">Gentle, alcohol-free formula that safely removes dirt and wax while preventing ear infections.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 320</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Anxiety Relief" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Calming Anxiety Relief Chews</h3>
+                            <p class="product-description">Natural calming aid with chamomile and tryptophan. Helps reduce stress during thunderstorms, travel, or separation.</p>
+                            <div class="product-rating">★★★★☆ (4.2)</div>
+                            <p class="product-price">Rs. 420</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="dog-health">
+                        <img src="/api/placeholder/400/320" alt="Wound Care" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Antiseptic Wound Spray</h3>
+                            <p class="product-description">Fast-acting spray that cleans and protects minor cuts, scrapes, and hot spots. Bitter taste deters licking.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 380</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Cat Health Page -->
+        <div id="cat-health" class="page">
+            <div class="container">
+                <h1 class="page-title">Cat Health Products</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-cat" placeholder="Search for cat health products...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn" data-category="all">All Health</button>
+                        <button class="category-btn" data-category="dog-health">Dog Health</button>
+                        <button class="category-btn active" data-category="cat-health">Cat Health</button>
+                        <button class="category-btn" data-category="supplements">Supplements</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Hairball Control" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Hairball Control Paste</h3>
+                            <p class="product-description">Malt-flavored paste that helps prevent hairballs and supports digestive health in cats.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 380</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Dental Treats" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Dental Health Treats</h3>
+                            <p class="product-description">Crunchy treats with special texture to clean teeth and freshen breath. Cat-approved flavors.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 290</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Urinary Health" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Urinary Tract Health Supplement</h3>
+                            <p class="product-description">Supports urinary health and prevents crystal formation. Cranberry extract and D-mannose formula.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 620</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Cat Calming Spray" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Calming Pheromone Spray</h3>
+                            <p class="product-description">Mimics natural feline facial pheromones to reduce stress and anxiety in cats. Great for travel or new environments.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 750</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Skin and Coat Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Skin & Coat Omega Gel</h3>
+                            <p class="product-description">Fish oil supplement in convenient gel form. Reduces shedding and promotes healthy skin and coat.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 480</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Digestive Enzymes" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Digestive Enzyme Powder</h3>
+                            <p class="product-description">Flavorless powder that supports proper digestion and nutrient absorption. Ideal for sensitive stomachs.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 520</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Eye Care" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Gentle Eye Cleaning Wipes</h3>
+                            <p class="product-description">Soft, pre-moistened wipes that safely remove tear stains and debris. Soothing formula for sensitive eyes.</p>
+                            <div class="product-rating">★★★★☆ (4.2)</div>
+                            <p class="product-price">Rs. 340</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="cat-health">
+                        <img src="/api/placeholder/400/320" alt="Flea Treatment" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Flea & Tick Prevention Drops</h3>
+                            <p class="product-description">Monthly topical treatment that kills and repels fleas, ticks, and mosquitoes. Waterproof formula.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 780</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Supplements Page -->
+        <div id="supplements" class="page">
+            <div class="container">
+                <h1 class="page-title">Pet Supplements</h1>
+                
+                <div class="search-bar">
+                    <input type="text" id="search-input-supplements" placeholder="Search for supplements...">
+                    <button onclick="searchProducts()">Search</button>
+                </div>
+                
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="category-btn" data-category="all">All Health</button>
+                        <button class="category-btn" data-category="dog-health">Dog Health</button>
+                        <button class="category-btn" data-category="cat-health">Cat Health</button>
+                        <button class="category-btn active" data-category="supplements">Supplements</button>
+                    </div>
+                </div>
+                
+                <div class="product-grid">
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Multivitamin" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Complete Multivitamin Formula</h3>
+                            <p class="product-description">All-in-one vitamin and mineral supplement for overall health. Supports immune system and energy levels.</p>
+                            <div class="product-rating">★★★★★ (4.9)</div>
+                            <p class="product-price">Rs. 680</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Omega Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Premium Omega-3 Oil</h3>
+                            <p class="product-description">Cold-pressed fish oil with optimal EPA and DHA levels. Supports skin, coat, joints, and brain function.</p>
+                            <div class="product-rating">★★★★★ (4.7)</div>
+                            <p class="product-price">Rs. 750</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Joint Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Advanced Joint Support</h3>
+                            <p class="product-description">Comprehensive formula with glucosamine, chondroitin, MSM, and hyaluronic acid. Supports joint health and mobility.</p>
+                            <div class="product-rating">★★★★★ (4.8)</div>
+                            <p class="product-price">Rs. 850</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Probiotic Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Probiotic & Prebiotic Blend</h3>
+                            <p class="product-description">Promotes healthy gut flora and digestive function. Helps with occasional digestive upset and supports immune health.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 580</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Calming Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Natural Calming Formula</h3>
+                            <p class="product-description">Blend of L-theanine, chamomile, and tryptophan. Helps reduce stress and anxiety without causing drowsiness.</p>
+                            <div class="product-rating">★★★★☆ (4.4)</div>
+                            <p class="product-price">Rs. 620</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Immune Support" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Immune System Support</h3>
+                            <p class="product-description">Powerful blend of antioxidants, vitamins, and mushroom extracts to strengthen the immune system and support overall health.</p>
+                            <div class="product-rating">★★★★☆ (4.5)</div>
+                            <p class="product-price">Rs. 690</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Senior Support" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Senior Pet Wellness Formula</h3>
+                            <p class="product-description">Specially formulated for aging pets. Supports cognitive function, joint health, and energy levels.</p>
+                            <div class="product-rating">★★★★★ (4.6)</div>
+                            <p class="product-price">Rs. 720</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="product-card" data-category="supplements">
+                        <img src="/api/placeholder/400/320" alt="Dental Supplement" class="product-img">
+                        <div class="product-info">
+                            <h3 class="product-title">Dental Health Supplement</h3>
+                            <p class="product-description">Powder form supplement that supports oral health. Helps reduce plaque and tartar buildup when added to food.</p>
+                            <div class="product-rating">★★★★☆ (4.3)</div>
+                            <p class="product-price">Rs. 540</p>
+                            <div class="pet-type">
+                                <span class="label">For:</span>
+                                <span class="pet-icon">🐕 🐈</span>
+                            </div>
+                            <div class="btn-container">
+                                <button class="btn btn-primary" onclick="addToCart(this)">Add to Cart</button>
+                                <button class="btn btn-secondary" onclick="toggleWishlist(this)">♡</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <footer>
+       <div class="footer-content">
+            <div class="footer-section">
+                <h3>Paws and Claws</h3>
+                <p>Premium pet products for your furry friends.</p>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 Paws and Claws. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+<script="heathcart.js"></script>
+    <script src="health.js"></script>
+    <script src="healthvalidate.js"></script>
+	<script src="heathcart.js"></script>
+</body>
+</html>
