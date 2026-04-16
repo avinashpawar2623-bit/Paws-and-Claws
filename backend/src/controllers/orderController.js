@@ -1,6 +1,7 @@
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
+const { createNotification } = require("../services/notificationService");
 
 const createOrder = async (req, res) => {
   const { shippingAddress, paymentStatus, paymentMethod } = req.body;
@@ -57,6 +58,19 @@ const createOrder = async (req, res) => {
     });
   }
 
+  await createNotification({
+    userId: order.userId,
+    type: "order_created",
+    title: "Order placed",
+    message: `Your order ${order._id.toString()} has been created.`,
+    referenceType: "Order",
+    referenceId: order._id.toString(),
+    metadata: {
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+    },
+  });
+
   return res.status(201).json({ success: true, message: "Order created.", order });
 };
 
@@ -100,6 +114,19 @@ const updateOrderStatus = async (req, res) => {
       paymentStatus: order.paymentStatus,
     });
   }
+
+  await createNotification({
+    userId: order.userId,
+    type: "order_updated",
+    title: "Order updated",
+    message: `Your order ${order._id.toString()} is now ${order.status}.`,
+    referenceType: "Order",
+    referenceId: order._id.toString(),
+    metadata: {
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+    },
+  });
 
   return res.status(200).json({ success: true, message: "Order updated.", order });
 };

@@ -4,6 +4,7 @@ const Payment = require("../models/Payment");
 const WalletTransaction = require("../models/WalletTransaction");
 const Invoice = require("../models/Invoice");
 const { createIdempotencyKey, creditWallet, processOrderPayment } = require("../services/paymentService");
+const { createNotification } = require("../services/notificationService");
 
 const createPayment = async (req, res) => {
   const { orderId, provider, currency } = req.body;
@@ -83,6 +84,18 @@ const handleWebhook = async (req, res) => {
           paymentStatus: order.paymentStatus,
         });
       }
+
+      await createNotification({
+        userId: order.userId,
+        type: "payment_updated",
+        title: "Payment updated",
+        message: `Payment for order ${order._id.toString()} is now ${order.paymentStatus}.`,
+        referenceType: "Order",
+        referenceId: order._id.toString(),
+        metadata: {
+          paymentStatus: order.paymentStatus,
+        },
+      });
     }
   }
 
@@ -145,6 +158,18 @@ const requestRefund = async (req, res) => {
         paymentStatus: order.paymentStatus,
       });
     }
+
+    await createNotification({
+      userId: order.userId,
+      type: "payment_updated",
+      title: "Refund processed",
+      message: `Refund for order ${order._id.toString()} was credited to your wallet.`,
+      referenceType: "Order",
+      referenceId: order._id.toString(),
+      metadata: {
+        paymentStatus: order.paymentStatus,
+      },
+    });
   }
 
   return res.status(200).json({ success: true, message: "Refund processed to wallet.", payment });
@@ -191,6 +216,18 @@ const cancelPayment = async (req, res) => {
         paymentStatus: order.paymentStatus,
       });
     }
+
+    await createNotification({
+      userId: order.userId,
+      type: "payment_updated",
+      title: "Payment cancelled",
+      message: `Payment for order ${order._id.toString()} was cancelled.`,
+      referenceType: "Order",
+      referenceId: order._id.toString(),
+      metadata: {
+        paymentStatus: order.paymentStatus,
+      },
+    });
   }
 
   return res.status(200).json({ success: true, message: "Payment cancelled.", payment });

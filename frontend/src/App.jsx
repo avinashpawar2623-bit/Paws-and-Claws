@@ -17,6 +17,7 @@ import AdminDashboardPage from './pages/AdminDashboardPage'
 import VendorDashboardPage from './pages/VendorDashboardPage'
 import WalletPage from './pages/WalletPage'
 import SubscriptionsPage from './pages/SubscriptionsPage'
+import NotificationsPage from './pages/NotificationsPage'
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           <Route path="checkout" element={<CheckoutPage />} />
           <Route path="orders" element={<OrderHistoryPage />} />
           <Route path="orders/:id" element={<OrderDetailPage />} />
+          <Route path="notifications" element={<NotificationsPage />} />
           <Route path="profile" element={<ProfilePage />} />
           <Route path="wallet" element={<WalletPage />} />
           <Route path="subscriptions" element={<SubscriptionsPage />} />
