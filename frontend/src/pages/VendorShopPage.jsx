@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { fetchVendorShopBySlug } from '../services/vendorShopService'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function VendorShopPage() {
   const { slug } = useParams()
   const [data, setData] = useState(null)
   const [error, setError] = useState('')
+
+  usePageMeta({
+    title: data?.shop?.shopName || 'Vendor Shop',
+    description:
+      data?.shop?.description ||
+      'Explore products and seller details from a Paws and Claws marketplace vendor.',
+  })
 
   useEffect(() => {
     const load = async () => {

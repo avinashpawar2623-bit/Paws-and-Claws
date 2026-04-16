@@ -12,6 +12,7 @@ const sanitizeUser = (user) => ({
   name: user.name,
   phone: user.phone,
   role: user.role,
+  isSuspended: user.isSuspended,
   profileImage: user.profileImage,
   address: user.address,
   walletBalance: user.walletBalance,
@@ -69,6 +70,13 @@ const login = async (req, res) => {
     return res
       .status(401)
       .json({ success: false, message: "Invalid credentials." });
+  }
+
+  if (user.isSuspended) {
+    return res.status(403).json({
+      success: false,
+      message: "Account is suspended. Please contact support.",
+    });
   }
 
   const isValidPassword = await bcrypt.compare(password, user.password);

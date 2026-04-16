@@ -2,16 +2,19 @@ const Order = require("../models/Order");
 const Product = require("../models/Product");
 const User = require("../models/User");
 const VendorShop = require("../models/VendorShop");
+const AuditLog = require("../models/AuditLog");
 
 const getAdminDashboard = async (_req, res) => {
-  const [userCount, productCount, orderCount, revenueAgg] = await Promise.all([
+  const [userCount, suspendedUserCount, productCount, orderCount, revenueAgg, recentAuditLogs] = await Promise.all([
     User.countDocuments(),
+    User.countDocuments({ isSuspended: true }),
     Product.countDocuments(),
     Order.countDocuments(),
     Order.aggregate([
       { $match: { paymentStatus: { $in: ["paid", "pending"] } } },
       { $group: { _id: null, revenue: { $sum: "$totalPrice" } } },
     ]),
+    AuditLog.find().sort({ createdAt: -1 }).limit(10),
   ]);
 
   const recentOrders = await Order.find().sort({ createdAt: -1 }).limit(10);
@@ -20,11 +23,13 @@ const getAdminDashboard = async (_req, res) => {
     success: true,
     analytics: {
       userCount,
+      suspendedUserCount,
       productCount,
       orderCount,
       totalRevenue: revenueAgg[0]?.revenue || 0,
     },
     recentOrders,
+    recentAuditLogs,
   });
 };
 

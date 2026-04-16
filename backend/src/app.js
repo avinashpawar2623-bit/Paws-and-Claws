@@ -17,6 +17,8 @@ const paymentRoutes = require("./routes/paymentRoutes");
 const subscriptionRoutes = require("./routes/subscriptionRoutes");
 const notificationRoutes = require("./routes/notificationRoutes");
 const vendorShopRoutes = require("./routes/vendorShopRoutes");
+const blogRoutes = require("./routes/blogRoutes");
+const { getRobotsTxt, getSitemapXml } = require("./controllers/seoController");
 const { notFoundHandler, errorHandler } = require("./middleware/errorHandler");
 
 const app = express();
@@ -52,10 +54,13 @@ app.use("/api/payments", paymentRoutes);
 app.use("/api/subscriptions", subscriptionRoutes);
 app.use("/api/notifications", notificationRoutes);
 app.use("/api/vendor-shops", vendorShopRoutes);
+app.use("/api/blog", blogRoutes);
 
 app.get("/", (req, res) => {
   res.json({ success: true, message: "Welcome to Paws and Claws API." });
 });
+app.get("/robots.txt", getRobotsTxt);
+app.get("/sitemap.xml", getSitemapXml);
 
 app.use(notFoundHandler);
 app.use(errorHandler);

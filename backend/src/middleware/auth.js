@@ -24,6 +24,12 @@ const protect = async (req, res, next) => {
         .json({ success: false, message: "Invalid access token." });
     }
 
+    if (user.isSuspended) {
+      return res
+        .status(403)
+        .json({ success: false, message: "Account is suspended." });
+    }
+
     req.user = user;
     return next();
   } catch (error) {

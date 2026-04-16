@@ -2,6 +2,7 @@ const Cart = require("../models/Cart");
 const Order = require("../models/Order");
 const Product = require("../models/Product");
 const { createNotification } = require("../services/notificationService");
+const AuditLog = require("../models/AuditLog");
 
 const createOrder = async (req, res) => {
   const { shippingAddress, paymentStatus, paymentMethod } = req.body;
@@ -76,6 +77,14 @@ const createOrder = async (req, res) => {
 
 const getOrders = async (req, res) => {
   const query = req.user.role === "admin" ? {} : { userId: req.user._id };
+
+  if (req.user.role === "admin") {
+    if (req.query.status) query.status = req.query.status;
+    if (req.query.paymentStatus) query.paymentStatus = req.query.paymentStatus;
+    if (req.query.userId) query.userId = req.query.userId;
+    if (req.query.orderId) query._id = req.query.orderId;
+  }
+
   const orders = await Order.find(query).sort({ createdAt: -1 });
   return res.status(200).json({ success: true, orders });
 };
@@ -123,6 +132,17 @@ const updateOrderStatus = async (req, res) => {
     referenceType: "Order",
     referenceId: order._id.toString(),
     metadata: {
+      status: order.status,
+      paymentStatus: order.paymentStatus,
+    },
+  });
+
+  await AuditLog.create({
+    actorId: req.user?._id || null,
+    action: "order.updated",
+    entityType: "Order",
+    entityId: order._id.toString(),
+    details: {
       status: order.status,
       paymentStatus: order.paymentStatus,
     },

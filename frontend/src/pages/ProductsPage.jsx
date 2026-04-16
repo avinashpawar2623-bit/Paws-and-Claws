@@ -1,8 +1,14 @@
 import { useEffect, useState } from 'react'
 import { Link, useSearchParams } from 'react-router-dom'
 import { fetchProductSuggestions, fetchProducts } from '../services/productService'
+import { usePageMeta } from '../hooks/usePageMeta'
 
 function ProductsPage() {
+  usePageMeta({
+    title: 'Products',
+    description:
+      'Browse pet food, toys, health products, and accessories with advanced search and filters.',
+  })
   const [searchParams, setSearchParams] = useSearchParams()
   const [items, setItems] = useState([])
   const [suggestions, setSuggestions] = useState([])

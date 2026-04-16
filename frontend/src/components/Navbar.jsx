@@ -33,6 +33,7 @@ function Navbar() {
       </NavLink>
       <nav className="nav-links">
         <NavLink to="/">Home</NavLink>
+        <NavLink to="/blog">Blog</NavLink>
         <NavLink to="/products">Products</NavLink>
         <NavLink to="/cart">Cart ({itemCount})</NavLink>
         {isAuthenticated ? (

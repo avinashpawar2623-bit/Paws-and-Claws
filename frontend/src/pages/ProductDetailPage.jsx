@@ -3,6 +3,7 @@ import { Link, useParams } from 'react-router-dom'
 import { fetchProductById, fetchProductRecommendations } from '../services/productService'
 import { useAuth } from '../hooks/useAuth'
 import { useCart } from '../hooks/useCart'
+import { usePageMeta } from '../hooks/usePageMeta'
 import { addToWishlist } from '../services/wishlistService'
 import {
   createReview,
@@ -22,6 +23,13 @@ function ProductDetailPage() {
   const [savingWishlist, setSavingWishlist] = useState(false)
   const [reviews, setReviews] = useState([])
   const [reviewForm, setReviewForm] = useState({ rating: 5, comment: '' })
+
+  usePageMeta({
+    title: product?.name || 'Product',
+    description:
+      product?.description ||
+      'Explore pet product details, pricing, stock, reviews, and recommendations.',
+  })
   const handleAddToCart = async () => {
     if (!isAuthenticated) return
     setAdding(true)

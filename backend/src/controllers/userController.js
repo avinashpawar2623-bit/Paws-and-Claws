@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const Product = require("../models/Product");
+const AuditLog = require("../models/AuditLog");
 
 const getProfile = async (req, res) => {
   return res.status(200).json({ success: true, user: req.user });
@@ -50,7 +51,49 @@ const deleteUser = async (req, res) => {
     return res.status(404).json({ success: false, message: "User not found." });
   }
 
+  await AuditLog.create({
+    actorId: req.user?._id || null,
+    action: "user.deleted",
+    entityType: "User",
+    entityId: user._id.toString(),
+    details: { email: user.email },
+  });
+
   return res.status(200).json({ success: true, message: "User deleted." });
+};
+
+const updateUserStatus = async (req, res) => {
+  const { isSuspended, suspendedReason } = req.body;
+  const user = await User.findById(req.params.id);
+  if (!user) {
+    return res.status(404).json({ success: false, message: "User not found." });
+  }
+
+  user.isSuspended = Boolean(isSuspended);
+  user.suspendedReason = user.isSuspended ? suspendedReason || "" : "";
+  await user.save();
+
+  await AuditLog.create({
+    actorId: req.user?._id || null,
+    action: user.isSuspended ? "user.suspended" : "user.unsuspended",
+    entityType: "User",
+    entityId: user._id.toString(),
+    details: { reason: user.suspendedReason, email: user.email },
+  });
+
+  return res.status(200).json({
+    success: true,
+    message: user.isSuspended ? "User suspended." : "User reactivated.",
+    user,
+  });
+};
+
+const listAuditLogs = async (_req, res) => {
+  const logs = await AuditLog.find()
+    .populate("actorId", "name email role")
+    .sort({ createdAt: -1 })
+    .limit(100);
+  return res.status(200).json({ success: true, logs });
 };
 
 const getWishlist = async (req, res) => {
@@ -136,4 +179,6 @@ module.exports = {
   getWishlist,
   addToWishlist,
   removeFromWishlist,
+  updateUserStatus,
+  listAuditLogs,
 };

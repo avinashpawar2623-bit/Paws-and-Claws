@@ -20,12 +20,16 @@ import SubscriptionsPage from './pages/SubscriptionsPage'
 import NotificationsPage from './pages/NotificationsPage'
 import VendorShopPage from './pages/VendorShopPage'
 import WishlistPage from './pages/WishlistPage'
+import BlogPage from './pages/BlogPage'
+import BlogDetailPage from './pages/BlogDetailPage'
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<AppLayout />}>
         <Route index element={<HomePage />} />
+        <Route path="blog" element={<BlogPage />} />
+        <Route path="blog/:slug" element={<BlogDetailPage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:id" element={<ProductDetailPage />} />
         <Route path="shops/:slug" element={<VendorShopPage />} />

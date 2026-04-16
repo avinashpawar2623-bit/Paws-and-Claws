@@ -28,6 +28,15 @@ const userSchema = new mongoose.Schema(
       enum: ["admin", "vendor", "customer"],
       default: "customer",
     },
+    isSuspended: {
+      type: Boolean,
+      default: false,
+      index: true,
+    },
+    suspendedReason: {
+      type: String,
+      default: "",
+    },
     profileImage: {
       type: String,
       default: "",
