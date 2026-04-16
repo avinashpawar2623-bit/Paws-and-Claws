@@ -18,6 +18,7 @@ import VendorDashboardPage from './pages/VendorDashboardPage'
 import WalletPage from './pages/WalletPage'
 import SubscriptionsPage from './pages/SubscriptionsPage'
 import NotificationsPage from './pages/NotificationsPage'
+import VendorShopPage from './pages/VendorShopPage'
 
 function App() {
   return (
@@ -26,6 +27,7 @@ function App() {
         <Route index element={<HomePage />} />
         <Route path="products" element={<ProductsPage />} />
         <Route path="products/:id" element={<ProductDetailPage />} />
+        <Route path="shops/:slug" element={<VendorShopPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="register" element={<RegisterPage />} />
         <Route element={<ProtectedRoute />}>
